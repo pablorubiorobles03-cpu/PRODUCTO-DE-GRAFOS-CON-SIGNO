@@ -48,4 +48,4 @@ El documento principal (disponible en formato PDF en este repositorio) se estruc
 6. **Clase de cambio de signo de la signatura positiva:** Estudio del subgrupo que aglutina los grafos balanceados y demostración de su isomorfismo al grupo $\mathbb{Z}_2^{|V|-c}$.
 7. **Conclusiones:** Recapitulación de los resultados, clasificación estructural y posibles líneas de trabajo futuro (grafos dirigidos y algoritmos computacionales).
 
-> *"La matemática abstracta no solo resuelve ecuaciones; proporciona el andamiaje lógico para estructurar, comprender y extraer valor del caos de los datos."*
+> *"La matemática abstracta no solo resuelve ecuaciones; proporciona la base lógica para estructurar, comprender y extraer valor del caos de los datos."*
