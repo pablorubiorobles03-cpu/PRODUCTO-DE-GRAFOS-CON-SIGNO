@@ -1,0 +1,2248 @@
+\documentclass[11pt,a4paper,spanish]{report}
+\usepackage[margin=3.5cm]{geometry}
+
+% Paquetes
+
+
+\usepackage{subcaption}
+
+
+\usepackage{pdfpages}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{calligra}
+\usepackage{float}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{tabularx}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows, arrows.meta, babel, calc}
+
+% Modificaciones
+\decimalpoint
+\renewcommand\spanishtablename{Tabla}
+\renewcommand\spanishlisttablename{Índice de tablas}
+
+
+% Entornos
+
+\renewcommand{\baselinestretch}{1.5}
+%\newtheoremstyle{teo}{0.6cm}{5mm}{\itshape}{}{\bfseries}{\vspace*{2mm}}{\newline}{\thmname{#1} \thmnote{#2} \thmnumber{#3}}
+%\theoremstyle{teo}
+
+\theoremstyle{plain}
+
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{proposicion}[teorema]{Proposición}
+\newtheorem{corolario}[teorema]{Corolario}
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{definicion}{Definición}[chapter]
+\newtheorem{propiedades}[teorema]{Propiedades}
+\newtheorem{nota}{Observación}
+\newtheorem{ejemplo}{Ejemplo}[chapter]
+
+% Inicio
+
+\begin{document}
+\pagenumbering{gobble}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PORTADA
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=6cm,height=4cm]{Logo.jpg}
+\end{center}
+\end{figure}
+
+
+\title{PRODUCTO DE GRAFOS CON SIGNO}
+
+
+
+\author{{\huge Pablo Rubio Robles} \\ \\ \\ \\ \\ \\ Tutorizado por: Juan Baz González y Sergio Fernández Alonso \\ \\ UNIVERSIDAD DE OVIEDO \\ Facultad de Ciencias \\ Grado en Matemáticas}
+
+\date{Junio de 2026}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\includepdf[pages=1]{tfg.pdf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%ÍNDICE
+\pagenumbering{Roman}
+\tableofcontents
+%\listoffigures
+%\listoftables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage\thispagestyle{empty}
+\clearpage\thispagestyle{empty}
+
+\skip\footins 15mm \footnotesep 10mm
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\chapter{Introducción}\label{chap:introduccion}
+
+La teoría de grafos es una rama de las matemáticas que estudia las relaciones y conexiones entre distintos elementos. Su origen formal se sitúa en 1736 con la resolución del problema de los puentes de Königsberg por parte de Leonhard Euler \cite{euler1741solutio}. Este trabajo demostró que en algunos problemas lo verdaderamente importante es conocer cómo están conectados los elementos y no la distancia física real que los separa. Durante gran parte de su desarrollo, el estudio de los grafos se limitó a la adyacencia para determinar la existencia o ausencia de conexión entre elementos. Sin embargo, para modelar sistemas reales o estructuras matemáticas donde las relaciones presentan oposiciones como atracción frente a repulsión esta visión es limitada.
+
+A mediados del siglo XX, Frank Harary y Dorwin Cartwright formalizaron la teoría de los grafos con signo \cite{cartwright1977graph}. Al asignar un signo positivo o negativo a cada arista, el interés de la teoría evolucionó desde la transitividad hacia el concepto de balance de los ciclos \cite{harary1953notion}. Según la definición formal, un grafo signado se considera equilibrado o balanceado si el producto de las aristas de cada ciclo es positivo, lo que permite formalizar dinámicas sociales como el principio de que `el enemigo de mi enemigo es mi amigo'\cite{cartwright1956structural}.
+
+La literatura ha abordado tradicionalmente los grafos con signo desde una perspectiva centrada en el análisis del balance o en las transformaciones locales denominadas cambios de signo \cite{zaslavsky1982signed}. No obstante, este Trabajo de Fin de Grado adopta una perspectiva algebraica donde el eje principal es el producto de grafos con signo. 
+
+
+Tomando un grafo fijo, el conjunto de todas las aplicaciones que asignan un signo a cada arista, llamado conjunto de signaturas, revela una estructura interna de interés. Es posible dotar a este conjunto de una operación binaria denominada producto de grafos con signo. Esta operación, definida mediante la multiplicación de los signos arista a arista, confiere al espacio de signaturas una estructura de grupo abeliano isomorfo a un espacio vectorial sobre el cuerpo finito $\mathbb{Z}_2$.
+
+La finalidad de esta formalización consiste en estudiar cómo el producto de grafos con signo se relaciona con las operaciones de cambio de signo mencionadas previamente. En concreto, se analizará cómo estas transformaciones pueden reescribirse y tratarse algebraicamente como el producto por una familia especial de asignaciones llamadas signaturas de corte. Esta compatibilidad  permite agrupar las signaturas en clases de equivalencia.
+
+
+Los conceptos teóricos que aborda este documentos tienen todo tipo de aplicaciones en la práctica. El producto de grafos con signo proporciona herramientas analíticas para estudiar sistemas complejos donde las relaciones evolucionan o se superponen. Este producto, permite comparar distintos estados de una misma red identificando de forma exacta las interacciones que han cambiado de naturaleza al generar una nueva signatura que produce dichas diferencias. Esta propiedad resulta fundamental para analizar redes sociales o biológicas que cambian con el tiempo al permitir identificar con exactitud qué relaciones concretas se han modificado de un momento a otro \cite{tang2016survey}. Asimismo, en física estadística, para el estudio de sistemas magnéticos desordenados como los vidrios de espín, las clases de equivalencia y su producto facilitan el análisis de estados de mínima energía al tratar las transformaciones locales como variaciones de una misma clase estructural \cite{barahona1982computational}, \cite{facchetti2011computing}.
+
+
+Volviendo al transcurso del documento, el contenido se organiza siguiendo una progresión lógica que comienza con los preliminares teóricos de grafos y álgebra en el Capítulo \ref{C2}. El Capítulo \ref{C3} introduce el producto de grafos con signo y demuestra su estructura de grupo abeliano. El Capítulo \ref{C4} analiza la relación entre la operación de cambio de signo y el producto de grafos, haciendo uso de signaturas de corte.
+Sobre esta base, el Capítulo \ref{C5} demuestra que el producto se hereda a nivel de las clases de equivalencia dotando al espacio cociente de estructura de grupo. El Capítulo \ref{C6} profundiza en la clase de la signatura positiva como elemento neutro del grupo y demuestra que aglutina la totalidad de los grafos balanceados. Finalmente el Capítulo \ref{C7} expone las conclusiones de la investigación y recapitula cómo el producto algebraico permite clasificar la naturaleza de los grafos con signo.
+
+\chapter{Preliminares}\label{C2}
+Este primer capítulo tiene como propósito introducir los conceptos matemáticos básicos y fijar la notación que se empleará a lo largo de todo el trabajo. De este modo, se establece una base teórica y un lenguaje común que permitirá desarrollar con rigor los resultados de los capítulos posteriores. Para facilitar la lectura, el contenido se ha estructurado en tres bloques que integran las herramientas necesarias de grafos, álgebra y teoría de conjuntos.
+
+
+
+\section{Preliminares de Grafos}
+De forma intuitiva un grafo puede entenderse como un modelo matemático diseñado para representar una red de conexiones. Está formado por una colección de objetos individuales que interactúan entre sí mediante enlaces directos. Esta estructura resulta fundamental para estudiar sistemas donde lo verdaderamente importante no es la naturaleza aislada de los elementos sino cómo se relacionan entre sí. A continuación, se formaliza matemáticamente este concepto.
+
+\begin{definicion}\cite{gross2018graph} Un \textbf{grafo} es un par ordenado \( G = (V,A) \) donde $V\neq \emptyset$ es un conjunto finito de puntos y $A$ es un
+conjunto de pares ordenados de elementos de $V$. 
+\end{definicion}
+
+Dentro del propio grafo, los elementos del conjunto $V$ se les denomina indistintamente como \textbf{vértices} o \textbf{nodos} mientras que los elementos del conjunto $A$ se escriben de la forma $(u,v)$ y se denominan \textbf{aristas}. El hecho de que $(u,v)\in A$ se representa gráficamente como un flecha que une los nodos de $u$ a $v$. Al número de vértices (cardinal de $V$) se le llama \textbf{orden del grafo}, y se denota $o(G) := |V| = n$. Al número de aristas (cardinal de $A$) se le denomina \textbf{tamaño del grafo}, y se denota $t(G) := |A| = m$.
+
+En este trabajo, sólo se van a considerar un tipo particular de grafos, los grafos no orientados. Estos grafos se introducen en la siguiente definición.
+
+\begin{definicion}\cite{gross2018graph}
+Sea \( G = (V,A) \) un grafo, se dice que $G$ es un \textbf{ grafo no dirigido} o un \textbf{grafo no orientado} si $A$ es un conjunto de pares no ordenados de elementos de \( V \). En otras palabras, $(u,v)\in A$ si y solo si $(v,u)\in A$.
+\end{definicion}
+
+En un grafo no orientado, las aristas no poseen una dirección, es decir, la arista que une los vértices $u$ y $v$ se representa por el conjunto no ordenado $\{u,v\}$. 
+Esto implica que si se puede recorrer una arista en un sentido, siempre se podrá recorrerla en el opuesto. 
+\begin{nota}
+A partir de este momento, como los grafos que aparecerán serán grafos no orientados, se considerará que el conjunto de aristas $A$ es un conjunto no vacío formado exclusivamente por subconjuntos de cardinalidad dos de $V$. Esta restricción estructural implica en particular que $A \subseteq \mathcal{P}(V)$.
+\end{nota}
+\begin{comment}
+    
+
+Esta igualdad refleja la simetría de los grafos no orientados y resulta fundamental para simplificar las expresiones en demostraciones posteriores, donde se consideren productos o recorridos de aristas.
+\end{comment}
+\begin{ejemplo}\label{G}
+    
+
+Sea $G = (V, A)$ un grafo no orientado con conjunto de vértices y aristas dados, respectivamente, por:
+\[
+V = \{1, 2, 3, 4\}, \qquad
+A = \{\{1,2\}, \{1,3\}, \{2,3\}, \{2,4\}, \{3,4\}\}.
+\]
+Este grafo tiene orden $o(G) = 4$, correspondiente al número de vértices, y tamaño $t(G) = 5$, que representa el cardinal de $A$. El grafo $G$ se representa, a continuación, en la Figura \ref{fig:grafo no orientado}:
+ \begin{figure}[H]
+\begin{center}
+\centering
+\begin{tikzpicture}
+    % Nodos (vértices numerados)
+    \node[draw, circle] (1) at (0, 0) {1};
+    \node[draw, circle] (2) at (2, 0) {2};
+    \node[draw, circle] (3) at (1, 2) {3};
+    \node[draw, circle] (4) at (3, 2) {4};
+    
+    % Aristas (conexiones)
+    \draw (1) -- (2);
+    \draw (1) -- (3);
+    \draw (2) -- (3);
+    \draw (2) -- (4);
+    \draw (3) -- (4);
+\end{tikzpicture}
+\end{center}
+     \caption{{Grafo no orientado.}}
+     \label{fig:enter-label}
+      \label{fig:grafo no orientado}
+ \end{figure}
+\end{ejemplo}
+
+
+En el modelo representado en el ejemplo previo todas las conexiones se establecen entre pares de vértices distintos. Sin embargo, la teoría de grafos contempla situaciones donde una arista enlaza un nodo consigo mismo. Para caracterizar formalmente esta estructura resulta necesario establecer la siguiente definición.
+\begin{definicion}
+Sea $G=(V,A)$ un grafo no orientado.  
+Se dice que una arista $a \in A$ es un \textbf{bucle} si une un vértice consigo mismo, es decir, si existe $v \in V$ tal que $a = \{v,v\}$.
+\end{definicion}
+
+
+
+\begin{nota}
+Los grafos considerados durante el desarrollo de este trabajo serán además de no orientados, sin bucles. Se hará referencia a un grafo de este tipo simplemente como $G = (V, A)$. Asimismo, salvo que se indique lo contrario se asumirá en todo momento que el conjunto de vértices viene dado por $V=\{1,\dots,n\}$.
+\end{nota}
+
+Estas restricciones no suponen una pérdida de generalidad para los objetivos del
+trabajo, sino que simplifican la notación y evitan complicaciones técnicas que no
+aportan contenido esencial al estudio. 
+
+Un concepto básico en la teoría de grafos es el de adyacencia entre vértices, que indica cuándo dos nodos están conectados por una arista.
+
+
+
+
+\begin{definicion}\cite{gross2018graph}
+Sea $G=(V,A)$ un grafo, dos \textbf{nodos} $u,v \in V$ se dicen \textbf{adyacentes} si existe una arista \(\{u, v\} \in A\). %tal que i y j están conectados. %
+\end{definicion}
+Para estudiar la adyaciencia de todos los vértices y visualizarla de manera conjunta se utiliza una matriz definida a continuación.
+\begin{definicion}\cite{gross2018graph}
+Sea $G=(V,A)$ un grafo de orden $n$, la \textbf{matriz de adyacencia} del grafo $G$, denotada por \(A(G) = (a_{uv})_{u,v \in \{1, \dots, n\}}\), es una matriz \(n \times n\) definida por:
+
+\[
+a_{uv} =
+\begin{cases} 
+1, & \text{si } \{u,v\} \in A, \\
+0, & \text{si } \{u,v\} \notin A.
+\end{cases}
+\]
+\end{definicion}
+
+\begin{ejemplo}\label{ej:matriz adya}
+ La matriz de adyacencia del grafo definido en el Ejemplo \ref{G} es: \[
+A(G)=\begin{pmatrix}
+ 0 & 1 & 1 & 0 \\
+ 1 & 0 & 1 & 1 \\
+ 1 & 1 & 0 & 1 \\
+ 0 & 1 & 1 & 0 \\
+\end{pmatrix}
+\]
+\end{ejemplo}
+
+Como puede observarse en el Ejemplo \ref{ej:matriz adya}, la matriz de adyacencia es simétrica. Esta propiedad no es casual, sino que se cumple siempre en grafos no orientados ya que como se comentó antes, las aristas no poseen una dirección. 
+
+A partir de la estructura de un grafo dado,
+resulta natural considerar las distintas subestructuras que pueden extraerse
+de él. En muchas situaciones será necesario restringir la atención a una
+parte del grafo original conservando su organización interna. Esta idea se formalizará mediante la siguiente definición, donde se denota previamente por $\mathcal{P}(V')$ al conjunto formado por todos los subconjuntos de $V'$.
+
+
+\begin{definicion}\cite{gross2018graph}
+Sea $G=(V,A)$ un grafo, se dice que $G'=(V',A')$ es un \textbf{subgrafo} si cumple que   $V' \subseteq V$ y  $A' \subseteq \mathcal{P}(V') \times \mathcal{P}(V')\subseteq A$. 
+\end{definicion}
+
+La definición anterior se ilustra a continuación considerando un subconjunto
+de vértices y aristas del grafo introducido en el Ejemplo \ref{e2.1}.
+
+\begin{ejemplo}\label{e2.1}
+ Un subgrafo de $G=(V,A)$ del Ejemplo \ref{G}, puede ser $G'=(V',A')$ donde el conjunto de vértices y aristas están dados, respectivamente, por:
+\[
+V' = \{1, 2, 3\}, \qquad
+A' = \{\{1,2\}, \{2,3\}\}.
+\]
+ El subgrafo $G'$ se representa en la Figura \ref{fig:subgrafo G}.
+  \begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+    % Nodos (vértices numerados)
+    \node[draw, circle] (1) at (0, 0) {1};
+    \node[draw, circle] (2) at (2, 0) {2};
+    \node[draw, circle] (3) at (1, 2) {3};
+  
+    
+    % Aristas (conexiones)
+    \draw (1) -- (2);
+    \draw (2) -- (3);
+    
+\end{tikzpicture}
+\end{center}
+     \caption{{Subgrafo de $G$.}}
+     \label{fig:subgrafo G}
+ \end{figure}
+\end{ejemplo}
+
+
+
+Entre los distintos tipos de subgrafos, uno de los más relevantes es aquel que
+queda completamente determinado por un subconjunto de vértices. Esta
+construcción será especialmente útil en lo que sigue, ya que permite aislar
+porciones del grafo preservando toda la información de adyacencia interna.
+\begin{definicion}\cite{gross2018graph} 
+    Sean un grafo $G=(V,A)$ y un subconjunto $V' \subseteq V$. Se denomina \textbf{grafo generado por $V'$} al grafo $G'=(V',A')$ donde $\{ u,v \} \in A'$ si $\{ u,v \} \in A$ con $u,v \in V'$. 
+\end{definicion}
+Esta definición es equivalente a decir que un grafo generado es el subgrafo de $G$ que conserva todas las aristas que unen los nodos de $V'$.
+A continuación se presenta un ejemplo que ilustra la construcción de un grafo generado a partir de un subconjunto de vértices.
+
+
+\begin{ejemplo}
+Sea $G = (V, A)$ un grafo, donde el conjunto de vértices y de aristas están definidos, respectivamente, por:
+\[
+V = \{1, 2, 3, 4, 5\} \qquad y \qquad
+A = \{\{1,2\}, \{2,3\}, \{3,4\}, \{4,5\}, \{1,4\}, \{2,5\}\}.
+\]
+Sea $V'\subseteq V$ dado por $V' = \{1, 2, 3\}$. El subgrafo generado por $V'$ se denota por $G' = (V', A')$, donde, $A'$ representa las aristas de $G$ que conectan exclusivamente vértices de $V'$. Luego:
+\[
+A' = \{\{1,2\}, \{2,3\}\}
+\]
+
+En la Figura \ref{fig:grafo-generado-subfigure} se muestra a la izquierda el grafo original $G$ y a la derecha el grafo $G'$ generado por $V'$.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tikzpicture}[every node/.style={circle, draw, fill=white, minimum size=1cm}]
+      % --- Grafo original G_2 = (V_2,E_2) ---
+      % Nodos
+      \node (1) at (0,2) {1};       \node (2) at (2,2) {2};
+      \node (3) at (4,2) {3};
+      \node (4) at (1,0) {4};
+      \node (5) at (3,0) {5};
+
+      % Aristas del grafo original
+      \draw (1) -- (2);
+      \draw (2) -- (3);
+      \draw (3) -- (4);
+      \draw (4) -- (5);
+      \draw (1) -- (4);
+      \draw (2) -- (5);
+    \end{tikzpicture}
+\end{minipage}
+\hspace{0.5cm} % Espacio entre los subfiguras
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tikzpicture}[every node/.style={circle, draw, fill=white, minimum size=1cm}]
+      % --- Grafo generado por V'_2 = {1,2,3} ---
+      % Nodos desplazados a la derecha
+      \node (1') at (6,2) {1};
+      \node (2') at (8,2) {2};
+      \node (3') at (10,2) {3};
+
+      % Aristas del grafo generado
+      \draw (1') -- (2');
+      \draw (2') -- (3');
+    \end{tikzpicture}
+\end{minipage}
+\caption{Grafo $G$ (izquierda) y grafo generado por $V'$ (derecha).}
+\label{fig:grafo-generado-subfigure}
+\end{figure}
+\end{ejemplo}
+
+
+
+Cabe destacar que no todo subgrafo debe estar generado necesariamente por un subconjunto de vértices. Por ejemplo, el grafo de la Figura \ref{fig:subgrafo G} es subgrafo del de la Figura \ref{fig:grafo no orientado}, pero no está generado por $V'=\{1,2,3\}$, pues falta la arista $\{1,3\}$.
+
+
+Una vez descritas distintas subestructuras de un grafo, resulta natural
+estudiar cómo se pueden recorrer sus vértices a través de las aristas.
+Para ello se introduce la noción de cadena, que formaliza la idea de una
+sucesión de vértices consecutivos conectados por aristas del grafo.
+
+\begin{definicion}
+Sea $G=(V,A)$ un grafo, una \textbf{cadena} en $G$ entre los vértices $u,v\in V$ es una sucesión  de vértices 
+\[W_{uv}=(u_0,u_1,u_2,...,u_k)\]
+donde $u_0=u$ , $u_k=v$ . Además cumple que  $u_i\in V$ para todo $ i\in \{0,...,k\}$ y que $\{u_{i},u_{i+1}\}\in A$ para todo $i\in \{0,\dots,k-1\}$.
+
+El número $k$ se denomina \textbf{longitud} de la cadena. 
+Cabe destacar que no se exige que los vértices ni las aristas sean distintos. 
+
+Se dirá que una cadena es \textbf{cerrada} si $u_0 = u_k=u$ y la denotaremos como $W_u$. 
+
+Dada una cadena $W_{uv}$ se dirá \textbf{cadena inversa} denotada por $W_{uv}^{-1}$ a la sucesión obtenida al recorrer los mismos vértices en el orden opuesto
+\[
+W_{uv}^{-1} = (u_k, u_{k-1}, \dots, u_1, u_0)
+\]
+
+\end{definicion}
+Al estar definida sobre un grafo no orientado, las aristas transitadas son exactamente las mismas por lo que esta nueva sucesión constituye una cadena válida desde el vértice $v$ hasta el vértice $u$ manteniendo inalterado el conjunto de aristas involucradas.
+
+Como cada par de vértices dentro de una cadena está unido por una arista, podemos ver una cadena como una sucesión alternada de vértices y aristas
+\[
+W_{uv} = (u_0,a_1,u_1,a_2,u_2, \dots ,a_k, u_k),
+\]
+donde $u_0=u$ y $u_k=v$ y para cada $m\in \{1,\dots,k\}$, la arista $a_m$ tiene extremos precisamente los vértices $u_{m-1}$ y $u_m$. 
+
+
+
+\begin{comment}
+    
+
+    
+
+\begin{definicion}\cite{gross2018graph}
+Sea $G=(V,A)$ un grafo no orientado. Una \textbf{cadena}  entre los vértices u y v es una  . Una cadena que conecta $u$ con $v$ se denota como \(W_{uv}\).\\
+Cuando en una cadena el vértice inicial es el mismo que el vértice final se dice que es una \textbf{cadena cerrada}.
+
+
+\end{definicion}
+\end{comment}
+
+
+\begin{ejemplo}
+Dado el grafo $G = (V, A)$, en la Figura \ref{fig:cadena-ejemplo} se muestra la cadena $W_{35} = (3,2,4,5)$ que conecta los nodos $3$ y $5$.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.2, every node/.style={circle, draw, fill=white, minimum size=1cm}]
+    % Nodos numerados
+    \node (1) at (0,0) {1};
+    \node (2) at (2,0) {2};
+    \node (3) at (4,0) {3};
+    \node (4) at (2,2) {4};
+    \node (5) at (4,2) {5};
+
+    % Aristas en negro
+    \draw (1) -- (2);
+    \draw (2) -- (5);
+   
+
+    % Aristas de la cadena en rojo
+    \draw[red, very thick] (2) -- (3);
+    \draw[red, very thick] (2) -- (4);
+    \draw[red, very thick] (4) -- (5);
+\end{tikzpicture}
+\caption{Cadena $W_{35}$ (en rojo) del grafo $G$.}
+\label{fig:cadena-ejemplo}
+\end{figure}
+
+
+\end{ejemplo}
+El ejemplo anterior muestra cómo una cadena enlaza dos vértices del
+grafo mediante una sucesión de aristas. Esta idea conduce de forma natural a la noción de conexión entre nodos.
+\begin{definicion}\cite{gross2018graph}
+Sea $G=(V,A)$ un grafo, dos nodos $u,v\in V$ se dicen \textbf{ nodos conectados} si existe una cadena entre $u$ y $v$. 
+\end{definicion}
+
+La noción anterior describe la existencia de una conexión entre dos vértices
+concretos del grafo. A partir de esta idea se define una propiedad global que
+caracteriza cuándo todos los vértices del grafo están conectados entre sí.
+
+\begin{definicion}\cite{gross2018graph}
+Sea \( G = (V,A) \) un grafo, es \textbf{conexo} si para todo par de vértices $u$, $v$ $\in V$, existe una cadena \(W_{uv}\) que conecta $u$ con $v$. 
+\end{definicion}
+En otras palabras, un grafo es conexo si para cada par de vértices distintos en $V$, existe una cadena que los une.  La definición anterior describe cuándo un grafo es conexo. Sin
+embargo, cuando esta propiedad no se cumple, el grafo puede descomponerse en
+subgrafos que sí son conexos. Estas subestructuras reciben el nombre de componentes conexas.
+
+ \begin{definicion}\cite{gross2018graph}
+ Una \textbf{componente conexa} de un grafo $G = (V,A)$ es un subconjunto de vértices $V_s \subseteq V$ tal que:
+
+\begin{itemize}
+    \item[(i)] El grafo generado por $V_s$ es conexo.
+    
+    \item[(ii)] Para cualquier $V_r$ tal que $V_s \subset V_r \subseteq V$, el grafo generado por $V_r$ no es conexo.
+\end{itemize}
+ \end{definicion}
+Notar que cada nodo del grafo pertenece a una componente conexa. Sin embargo, es posible que a distintos nodos se les asocie la misma componente conexa, por eso el número de componentes conexas es siempre menor al orden del grafo.
+
+Una vez descrita la forma en la que un grafo se descompone en sus distintas componentes conexas, resulta fundamental clasificar ciertas estructuras que pueden aparecer. A coninuación, se introduce una de estas estructuras, que se utilizará habitualmente en este trabajo.
+
+\begin{definicion}\cite{gross2018graph}
+Sea un grafo $G=(V,A)$, se dice que $G$ es un \textbf{ grafo ciclo} si es un grafo conexo en el que todos los nodos tienen grado de incidencia dos. 
+\end{definicion}
+
+Alternativamente, se puede definir un ciclo como una cadena cerrada de longitud $n$ en la que los vértices $u_0, u_1, \dots, u_{n-1}$ son todos distintos. Estos ciclos, pueden ser subrgrafos de un grafo G.
+Como se verá más adelante, en el contexto de grafos con signo, el análisis de
+los ciclos será determinante para caracterizar el concepto de equilibrio.
+
+\begin{ejemplo} En la Figura \ref{fig:grafo ciclo G7} se representa un grafo ciclo de orden 4.
+ \begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+    % Nodos (vértices numerados)
+    \node[draw, circle] (1) at (0, 1) {1};
+    \node[draw, circle] (2) at (1, 2) {2};
+    \node[draw, circle] (3) at (2, 1) {3};
+    \node[draw, circle] (4) at (1, 0) {4};
+    
+    % Aristas (conexiones formando un ciclo)
+    \draw (1) -- (2);
+    \draw (2) -- (3);
+    \draw (3) -- (4);
+    \draw (4) -- (1);
+ 
+\end{tikzpicture}
+\end{center}
+     \caption{{Grafo ciclo de orden 4.}}
+     \label{fig:grafo ciclo G7}
+ \end{figure}
+\end{ejemplo}
+
+
+\section{Preliminares de Álgebra}
+El tratamiento formal de los grafos con signo requiere herramientas que van más allá de la teoría de grafos. Para estudiar las propiedades estructurales de las signaturas y sus operaciones, se recurrirá a distintos resultados algebraicos. A continuación, se presentan las definiciones y resultados básicos sobre grupos y homomorfismos que serán utilizados en los capítulos posteriores.
+
+\begin{definicion}\cite{dummit2004abstract}\label{Grupo Abeliano}
+Un \textbf{grupo} es un par $(G,\cdot)$ donde $G$ es un conjunto no vacío y 
+$\cdot : G \times G \to G$ es una operación binaria que satisface:
+
+\begin{enumerate}
+    \item[(i)] \textbf{Clausura:} Para todo $a,b \in G$, se tiene que $a \cdot b \in G$.
+    \item[(ii)] \textbf{Asociatividad:} Para todo $a,b,c \in G$,
+    \[
+        (a \cdot b)\cdot c = a \cdot (b \cdot c).
+    \]
+    \item[(iii)] \textbf{Existencia de elemento neutro:} Existe $e \in G$ tal que, para todo $a \in G$,
+    \[
+        e \cdot a = a \cdot e = a.
+    \]
+    \item[(iv)] \textbf{Existencia de elementos inversos:} Para cada $a \in G$, existe un $a^{-1} \in G$ tal que
+    \[
+        a \cdot a^{-1} = a^{-1} \cdot a = e.
+    \]
+\end{enumerate}
+
+Si además se cumple que $a \cdot b = b \cdot a$ para todo $a,b \in G$ (\textbf{Conmutatividad}), 
+decimos que el grupo es \textbf{abeliano}.
+\end{definicion}
+
+Una vez definida la estructura de grupo, resulta natural considerar subconjuntos que 
+heredan dicha estructura algebraica. A estos subconjuntos se les denomina 
+subgrupos, y se definen de la siguiente manera.
+
+
+\begin{definicion}\cite{dummit2004abstract}\label{def:subgrupo}
+Sea $(G,\cdot)$ un grupo.  
+Un subconjunto $H\subseteq G$ se dice \textbf{subgrupo} de $G$ si $(H,\cdot)$ es también un grupo con la operación inducida de $G$.  
+En particular, $H$ es subgrupo si cumple las siguientes propiedades:
+\begin{enumerate}
+    \item[(i)] \textbf{No vacío:} $H\neq\varnothing$
+    \item[(ii)] \textbf{Elemento neutro:} El elemento neutro de $G$ pertenece a $H$.
+    \item[(iii)] \textbf{Clausura:} si $x,y\in H$, entonces $x\cdot y\in H$.
+    \item[(iv)] \textbf{Clausura bajo inversos:} si $x\in H$, entonces $x^{-1}\in H$.
+\end{enumerate}
+En tal caso, se escribe $H\leq G$.
+\end{definicion}
+Como se puede notar, el concepto de subgrupo permite identificar subconjuntos de un grupo que heredan su 
+estructura algebraica. En muchos problemas, el estudio de un grupo se reduce al análisis 
+de ciertos subgrupos particularmente relevantes. 
+
+Además de estudiar subestructuras dentro de un mismo grupo, también resulta natural 
+considerar aplicaciones entre grupos que preserven la operación del grupo. 
+Estas aplicaciones reciben el nombre de homomorfismos.
+
+\begin{definicion}\cite{doerr2013applied}
+Sean $(G, \cdot)$ y $(H, *)$ dos grupos.
+Una aplicación 
+\[
+\varphi : G \longrightarrow H
+\]
+se denomina \textbf{homomorfismo} si 
+para la operación binaria $\cdot$ en $G$ y la operación correspondiente $*$ en $H$, se cumple que
+\[
+\varphi(a\cdot b) = \varphi(a) * \varphi(b)
+\quad \text{para todo } a,b \in G.
+\]
+\end{definicion}
+Los homomorfismos constituyen las aplicaciones que preservan la estructura 
+algebraica entre grupos. A trav\'es de ellos es posible comparar distintos 
+grupos y estudiar c\'omo se relacionan sus propiedades internas.
+
+Asociados a todo homomorfismo de grupos, existen dos subconjuntos fundamentales que permiten caracterizar el comportamiento de la aplicación. Estas construcciones algebraicas, denominadas núcleo e imagen, operan como herramientas esenciales para revelar las conexiones de la función, por lo que resulta imprescindible establecer su definición formal.
+
+
+\begin{definicion}\cite{dummit2004abstract}
+Sea $G$ un grupo y sea $\varphi : G \to H$ un homomorfismo de grupos.  
+Se define el \textbf{núcleo} de $\varphi$ como
+\[
+\ker(\varphi)=\{g\in G : \varphi(g)=e_H\},
+\]
+donde $e_H$ denota el neutro de $H$.  
+La \textbf{imagen} de $\varphi$ se define como
+\[
+\operatorname{Im}(\varphi)=\{\varphi(g): g\in G\}.
+\]
+\end{definicion}
+
+El núcleo y la imagen de un homomorfismo describen dos aspectos 
+fundamentales de la relación entre los grupos involucrados.
+El núcleo, recoge los elementos del grupo de partida que se envían 
+al elemento neutro, mientras que la imagen está formada por 
+los elementos del grupo de llegada que son alcanzados por la aplicación.
+
+Para estudiar con mayor detalle el comportamiento de estas aplicaciones, 
+resulta útil recordar algunas propiedades básicas de las aplicaciones 
+entre conjuntos, que se definen a continuación.
+
+\begin{definicion}\cite{dummit2004abstract}
+Sean $G$ y $H$ dos conjuntos y sea $\varphi : G \to H$ una aplicación.
+
+Se dice que $\varphi$ es:
+
+\begin{enumerate}
+
+    \item[(i)]\textbf{Inyectiva} si para todo $a, b \in G$,
+    \[
+    \varphi(a) = \varphi(b) \Rightarrow a = b.
+    \]
+
+    \item[(ii)]\textbf{Sobreyectiva} si para todo $b \in H$ existe $a \in G$ tal que
+    \[
+   \varphi(a) = b.
+    \]
+
+   \item[(iii)]\textbf{Biyectiva} si es inyectiva y sobreyectiva.
+\end{enumerate}
+\end{definicion}
+
+Es importante recordar para futuras demostraciones que decir que una aplicación $\varphi$ es biyectiva es equivalente a decir que existe una inversa $\varphi^{-1} : H \to G$ tal que
+\[
+\varphi^{-1} \circ \varphi = \mathrm{Id}_G
+\quad \text{y} \quad
+\varphi \circ \varphi^{-1} = \mathrm{Id}_H.
+\]
+donde $\mathrm{Id}_G : G \to G$ y $\mathrm{Id}_H : H \to H$ denotan las aplicaciones identidad sobre $G$ y $H$, respectivamente. Es decir, son aquellas aplicaciones que asignan a cada elemento de su dominio él mismo, cumpliendo que $\mathrm{Id}_G(g) = g$ para todo $g \in G$ e $\mathrm{Id}_H(h) = h$ para todo $h \in H$.
+
+En el contexto de la teoría de grupos, resulta especialmente importante considerar aquellas aplicaciones que, además de ser biyectivas, preservan la estructura algebraica. Estas aplicaciones permiten identificar grupos que, aunque puedan estar definidos de manera diferente, poseen esencialmente la misma estructura. De ahí nace el concepto de grupos isomorfos como se define a continuación.
+
+
+\begin{definicion}\label{isomorfismo}\cite{doerr2013applied}
+Sean $(G, \cdot)$ y $(H, \ast)$ dos grupos.  
+Se dice que son \textbf{isomorfos} si existe una aplicación biyectiva
+\[
+\varphi : G \longrightarrow H
+\]
+que cumple que es un homomorfismo.
+
+
+
+En tal caso, se dice que $\varphi$ es un \textbf{isomorfismo} de grupos y se denota $G \cong H$ para indicar que ambos grupos son isomorfos.
+\end{definicion}
+El siguiente resultado permite comprender cómo los isomorfismos de grupos identifican elementos de $G$ que tienen la misma imagen y proporciona una herramienta fundamental para el estudio estructural de los grupos.
+
+
+\begin{proposicion} \cite{dummit2004abstract} \label{prop_isomorfismo_funciones}
+Sea $A$ un conjunto finito de cardinal $|A|$ y sea $G$ un grupo. El conjunto de todas las funciones definidas desde el conjunto $X$ hacia el grupo $G$ denotado habitualmente como $G^A$ tiene estructura de grupo bajo la operación inducida punto a punto. Adicionalmente este grupo de funciones resulta ser isomorfo al producto directo de $|A|$ copias de $G$ lo cual se denota como $G^A \cong G^{|A|}$.
+\end{proposicion}
+
+Este resultado algebraico  permite identificar de forma directa cualquier función definida sobre un dominio finito con un vector de $n$ coordenadas donde cada posición corresponde a la evaluación de la función en uno de los elementos del conjunto original.
+
+Una vez definidos los conceptos de homomorfismo , isomorfismo y sus aplicaciones en este trabajo, el objetivo es introducir uno de los teoremas fundamentales de la teoría de grupos. Para ello, se deben definir dos conceptos previos necesarios para entender su correcto funcionamiento. Antes de presentar la definición formal, conviene aclarar que la notación $g \cdot N$ representa al conjunto $\{g \cdot n \mid n \in N\}$ y de forma simétrica $N \cdot g$ representa a $\{n \cdot g \mid n \in N\}$.
+
+\begin{definicion}\cite{dummit2004abstract}
+Sea $(G,\cdot)$ un grupo y sea $N \leq G$ un subgrupo.  
+Se dice que $N$ es un \textbf{subgrupo normal} de $G$ si
+\[
+g\cdot N = N\cdot g \quad \text{para todo } g \in G,
+\]
+lo cual se denota por $N \trianglelefteq G$.
+\end{definicion}
+
+\begin{definicion}\cite{dummit2004abstract}
+Sea $G$ un grupo y $N \trianglelefteq G$ un subgrupo normal.  
+El \textbf{grupo cociente} $G/N$ es el conjunto de las clases laterales de $N$ en $G$, es decir,
+\[
+G/N = \{g\cdot N \mid g \in G\}.
+\]
+
+\end{definicion}
+
+Una vez definido el grupo cociente ya se tienen todas las herramientas necesarias para introducir el teorema. Este resultado establece una conexi\'on estructural entre un grupo, el n\'ucleo 
+de un homomorfismo y su imagen, permitiendo describir la imagen como un 
+cociente del grupo original.
+
+\begin{teorema}[Primer teorema de isomorfía]\cite{dummit2004abstract}\label{primer}
+Sea $\varphi : G \to H$ un homomorfismo de grupos. Entonces,
+\[
+G / \ker(\varphi)\;\cong\;\operatorname{Im}(\varphi),
+\]
+
+\end{teorema}
+
+
+El Primer Teorema de Isomorfía muestra que el grupo cociente $G/\ker(\varphi)$
+describe de manera natural la parte del grupo $G$ que se preserva bajo el
+homomorfismo $\varphi$ y, que esta estructura es esencialmente la misma que
+la imagen de $\varphi$ en $H$.
+
+Este resultado permite comprender cómo los homomorfismos de grupos
+identifican elementos de $G$ que tienen la misma imagen y proporciona una
+herramienta fundamental para el estudio estructural de los grupos. Con ello
+se concluyen los preliminares algebraicos que serán utilizados en las secciones
+posteriores.
+
+
+
+\section{Preliminares de Teoría de Conjuntos}
+En esta sección se recogen algunos conceptos adicionales que, si bien no 
+pertenecen estrictamente ni al ámbito clásico de la teoría de grafos ni a la teoría algebraica, resultan fundamentales para el desarrollo 
+posterior del trabajo.
+
+En particular, se introducirá la operación de diferencia simétrica entre 
+subconjuntos de un conjunto dado y se estudiará la estructura algebraica 
+del conjunto de partes $\mathcal{P}(V)$, lo cual permitirá establecer conexiones directas entre 
+subconjuntos de vértices, signaturas de corte y  otros conceptos fundamentales para el estudio del producto de grafos con signo.
+
+
+
+\begin{definicion} \cite{doerr2013applied}\label{def_relacion_equivalencia}
+Sea $X$ un conjunto. Una relación binaria $\sim$ sobre $X$ se denomina \textbf{relación de equivalencia} si verifica las siguientes tres propiedades:
+\begin{itemize}
+\item[(i)] \textbf{Reflexividad:} Para todo $x \in X$ se cumple $x \sim x$.
+\item[(ii)] \textbf{Simétria:} Para todo $x, y \in X$ si $x \sim y$ entonces $y \sim x$.
+\item[(iii)] \textbf{Transitividad:} Para todo $x, y, z \in X$ si $x \sim y$ e $y \sim z$ entonces $x \sim z$.
+\end{itemize}
+\end{definicion}
+Una vez establecido el concepto de relación de equivalencia que permitirá agrupar elementos en clases con propiedades comunes resulta imprescindible definir herramientas que permitan manipular los subconjuntos de vértices del grafo. En este sentido, la siguiente operación de teoría de conjuntos jugará un papel fundamental al ser la pieza central que permitirá dotar al espacio de subconjuntos de una estructura algebraica.
+
+\begin{definicion}\cite{zaslavsky1982signed}
+Sean $X, Y \subseteq V$ dos subconjuntos de $V$.  
+Se denomina \textbf{diferencia simétrica} entre $X$ e $Y$, y se denota por $X \triangle Y$, a la operación que da como resultado un conjunto formado por los elementos que pertenecen a exactamente uno de los dos conjuntos, esto es,
+\[
+X \triangle Y := (X \setminus Y) \cup (Y \setminus X)
+= \{\, v \in V \mid (v \in X \ \text{y}\ v \notin Y)\ \text{o}\ (v \in Y \ \text{y}\ v \notin X)\,\}.
+\]
+\end{definicion}
+Obsérvese que esta operación permite tratar a los subconjuntos como elementos de una estructura algebraica de tipo 
+$\mathbb{Z}_2$.
+
+\begin{comment}
+    
+
+\begin{definicion}\cite{doerr2013applied}
+Sea $V$ un conjunto. Se define el \textbf{conjunto de partes de $V$}, y se denota por $\mathcal{P}(V)$, como el conjunto formado por todos los subconjuntos de $V$, es decir,
+\[
+\mathcal{P}(V) := \{ X \mid X \subseteq V \}.
+\]
+\end{definicion}
+\end{comment}
+\begin{lema}\cite{doerr2013applied}
+Sea $V$ un conjunto. $(\mathcal{P}(V),\triangle)$
+es un grupo abeliano.
+\end{lema}
+
+
+El siguiente resultado permite identificar la estructura anterior
+con un objeto algebraico bien conocido. Esta identificación será útil para determinar la estructura algebraica del producto de grafos con signo.
+
+\begin{proposicion}\label{prop3.13}\cite{doerr2013applied}
+El grupo abeliano $(\mathcal{P}(V),\triangle)$ es isomorfo a $(\mathbb{Z}_2^{\,|V|},+)$
+\end{proposicion}
+
+
+\chapter{Producto de grafos con signo}\label{C3}
+
+En este capítulo se introduce el estudio de los grafos con signo y las operaciones elementales definidas sobre ellos. Hasta ahora, se han tratado estructuras de grafos donde las aristas representan únicamente una relación de adyacencia. Sin embargo, en muchas aplicaciones resulta fundamental distinguir entre dos tipos de relaciones cualitativamente opuestas, lo que nos lleva a la necesidad de asignar un signo a cada arista.
+
+Se comenzará formalizando la definición de grafo signado y se establecerán conceptos estructurales clave, como el de ciclo positivo y el equilibrio. El objetivo principal de este capítulo es definir y analizar una operación interna en el conjunto de todas las posibles asignaciones de signos de un grafo dado. A través de esta operación, se demostrará que es posible dotar a dicho conjunto de una estructura algebraica de grupo abeliano. Esta formalización será la herramienta que sentará las bases para el estudio de transformaciones y relaciones de equivalencia en capítulos posteriores.
+
+\section{Grafos con signo}
+Una vez expuesta la motivación para dotar a las aristas de una polaridad, resulta imprescindible asentar las bases de estas estructuras. En los siguientes párrafos se formalizan los conceptos elementales que definen a un grafo signado.
+
+
+\begin{definicion}\cite{harary1953notion}
+La dupla $\Sigma=(G,\sigma)$ se dice \textbf{grafo con signo o signado} si $G=(V,A)$ es un grafo y $\sigma:A\to \{+,-\}$. A la aplicación $\sigma$ se la conoce como \textbf{signatura}.
+\end{definicion} 
+
+La signatura es una función $\sigma: A \longrightarrow \{+, -\}$  que asigna a cada arista $ \{u,v\} \in A$ un signo positivo (\(+\)) o negativo (\(-\)). Se definen las aristas positivas como el conjunto $L^+ = \sigma^{-1}(+)$ y las aristas negativas como $L^- = \sigma^{-1}(-)$. Así, $A= L^+ \cup L^-$, con $L^+ \cap L^- = \emptyset$.
+ 
+La introducción de una signatura supone un cambio cualitativo respecto al grafo clásico. A partir de este momento, la información ya no reside únicamente en la adyacencia, sino que también reside en las relaciones entre los signos de las aristas. Para analizar estas interacciones y poder operar con diferentes signaturas, resulta indispensable definir el producto de signos. Se verá a continuación que este producto es el producto usual.
+
+\begin{definicion}\cite{harary1953notion}
+Sea $\Sigma=(G,\sigma)$ un grafo signado y $\{+, -\}$ el espacio de llegada de su signatura $\sigma$, el \textbf{producto de signos} se define siguiendo lo indicado en la Tabla \ref{tabla: signos}:
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|cc}
+        
+        \textbf{$\times$} & + & - \\
+        \hline
+        + & + & - \\
+        
+        - & - & + \\
+        
+    \end{tabular}
+    \caption{Producto de los signos.}
+    \label{tabla: signos}
+\end{table}
+\end{definicion} 
+
+Obsérvese que el conjunto $\{+,-\}$ equipado con este producto constituye un
+grupo abeliano isomorfo a $\mathbb{Z}_2$. Esta observación será la base que permitirá extender el producto de signos arista a
+arista y dotar al conjunto de signaturas de una estructura algebraica.
+
+Por otro lado, en el estudio de los grafos signados es habitual la necesidad de hacer referencia al grafo base sobre el cual se definen los signos. Esta estructura desprovista de signos, se formalizará a continuación.
+
+\begin{definicion}
+Sea $\Sigma=(G,\sigma)$ un \emph{grafo signado} se dice que  $G$ es el \textbf{grafo subyacente} a $\Sigma$.
+\end{definicion} 
+Es decir, se considera únicamente 
+la estructura de vértices y aristas de $G$ sin la función de signo $\sigma$.
+
+
+
+Volviendo a la definición de grafo signado, dentro del conjunto de todas las posibles asignaciones de signos para un grafo $G$, existen dos configuraciones que merecen especial atención debido a su homogeneidad. A continuación, se definen formalmente estos dos casos elementales, en los cuales la polaridad del grafo se vuelve uniforme al compartir todas sus aristas el mismo signo.
+
+\begin{definicion}\cite{harary1953notion}
+Sea un grafo $G=(V,A)$. Se llama \textbf{signatura positiva} y se denota $\sigma_{+}$ a la signatura definida sobre $G$ que posee todas las aristas con signo positivo.
+
+De forma equivalente, se llama \textbf{signatura negativa} y se denota $\sigma_{-}$ a la signatura definida sobre $G$ que posee todas las aristas con signo negativo. 
+\end{definicion}
+
+Apoyándose en esta asignación de signos, se puede identificar sus ciclos y estudiar su comportamiento al incorporar la signatura, lo que permite clasificarlos según su producto interno.
+\begin{definicion}\cite{harary1953notion}
+Dado un ciclo de un grafo signado $\Sigma=(G,\sigma)$, se dice que es un \textbf{ciclo positivo} si el número  de aristas negativas es par. En caso contrario, se trata de un \textbf{ciclo negativo}.
+\end{definicion}
+
+En otras palabras, se dice que un ciclo es positivo si el producto de signos de todas las aristas que lo forman es positivo. De forma análoga, un ciclo es negativo si el producto de signo de todas las signaturas que lo forman es negativo.
+
+Usando la definición de ciclo positivo, se podrá definir a continuación uno de los conceptos más importantes en el estudio realizado en este documento.
+
+\begin{definicion}\cite{harary1953notion} Sea $\Sigma=(G,\sigma)$ un grafo signado, se considera \textbf{equilibrado} o \textbf{balanceado} si todos sus ciclos son positivos.
+\end{definicion}
+De forma equivalente, se dice que un grafo signado es equilibrado si el producto de los signos de las aristas alrededor de cada ciclo es positivo. A continuación, se ilustrará el concepto de grafo balanceado.
+\begin{ejemplo}
+Sea $\Sigma=(G,\sigma)$ el grafo signado definido sobre el grafo subyacente $G=(V,A)$ y representado en la Figura \ref{fig:grafo-signos}.
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+
+    % Definir los nodos
+    \node (1) at (0, 2) [circle, draw] {1};
+    \node (2) at (2, 2) [circle, draw] {2};
+    \node (3) at (2, 0) [circle, draw] {3};
+    \node (4) at (0, 0) [circle, draw] {4};
+
+    % Dibujar las aristas con colores y signos dentro de un hueco blanco
+    \draw[-, thick, blue] (1) -- (2) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red]  (2) -- (3) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue] (3) -- (4) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red]  (4) -- (1) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue] (1) -- (3) node[midway, fill=white, text=blue] {\(+\)};
+
+\end{tikzpicture}
+\end{center}
+     \caption{{Grafo con signo.}}
+     \label{fig:grafo-signos}
+\end{figure}
+
+
+En el grafo $\Sigma$, un ejemplo de ciclo positivo es $(1,2,3,4,1)$ y de ciclo negativo es $(1,2,3,1)$. Por ello, como existe un ciclo negativo, el grafo $\Sigma$ no es balanceado.
+\end{ejemplo}
+
+\begin{definicion}
+Sea \(G=(V,A)\) un grafo. Se define
+\(\mathcal{S}^\sigma_G=\{\sigma:A\to\{+,-\}\}\) como el \textbf{conjunto de todas las signaturas} que existen sobre el grafo G. 
+
+
+Siguiendo los mismos pasos, se define \(\mathcal{S}^\Sigma_G\) como el \textbf{conjunto de grafos signados que poseen el mismo grafo subyacente G.} Siguiendo la notación  $\mathcal{S}^\Sigma_G= \{(G,\sigma): \sigma \in \mathcal{S}^\sigma_G\}.$
+
+\end{definicion}
+En otras palabras, \(\mathcal{S}^\sigma_G\) define todas las  signaturas de los posibles grafos signados que tienen el mismo grafo subyacente G mientras que $\mathcal{S}^\Sigma_G$ define todos los posibles grafos signados que se pueden obtener a partir del mismo grafo subyacente.
+
+\section{Estructura del conjunto de signaturas}
+
+Una vez definido el concepto de grafo con signo, resulta de gran interés estudiar el conjunto de todas las posibles asignaciones de signos sobre un grafo fijo $G$. Este conjunto no debe considerarse simplemente como una colección de funciones, sino como un objeto con estructura algebraica.
+
+En esta sección, se introducirá una operación binaria interna sobre el conjunto de todas las posibles asignaciones de signos sobre un grafo basada en el producto de los signos de las aristas. Se verá cómo esta operación dota al conjunto de las signaturas de una estructura de grupo abeliano, lo cual constituye una herramienta fundamental para simplificar el estudio de las propiedades de equilibrio y las relaciones de equivalencia que se analizarán en los capítulos posteriores. 
+
+
+\begin{definicion}
+Sea $G=(V,A)$ un grafo y $\mathcal{S}^\sigma_G$
+el conjunto de todas las signaturas definidas sobre $G$, se define el \textbf{producto de signaturas} como la aplicación
+\[
+\otimes :\mathcal{S}^\sigma_G \times \mathcal{S}^\sigma_G \longrightarrow \mathcal{S}^\sigma_G,
+\]
+dada por
+\[
+(\sigma_1 \otimes\sigma_2)(a) = \sigma_1(a)\times\sigma_2(a), \qquad \forall a \in A.
+\]
+
+
+\end{definicion}
+
+Se entiende entonces que el valor de la signatura producto en cada arista $a$ es el producto de los signos asignados a $a$ por $\sigma_1$ y $\sigma_2$, respectivamente. 
+Realizando un abuso de notación, se puede interpretar el \textbf{producto de grafos con signo} 
+$\Sigma_1=(G,\sigma_1)$, $\Sigma_2=(G,\sigma_2)$ como
+$
+\Sigma_1\otimes\Sigma_2=(G,\sigma_1 \otimes \sigma_2) = \Sigma
+$
+\begin{comment}
+    \begin{definicion}
+S
+Sean dos grafos signados  $\Sigma_1=(G,\sigma_1)$ y  $\Sigma_2=(G,\sigma_2)$, definidos sobre el mismo grafo subyacente $G=(V,A)$, se define el \textbf{producto de grafos signados} como
+\[
+\sigma_1 \otimes \sigma_2 = \Sigma=(G,\sigma)
+\]
+donde la función de signo resultante $\sigma : A \to \{+,-\}$ está dada por
+\[
+\sigma(a) = \sigma_1(a)\cdot\sigma_2(a), \quad \forall a \in A.
+\]
+
+
+\end{definicion}
+
+\end{comment}
+
+
+
+En otras palabras, el grafo resultante tiene los mismos vértices y aristas de $G$,
+y el signo de cada arista es el producto de los signos de dicha arista en 
+$\Sigma_1$ y en $\Sigma_2$.
+
+Esta definición extiende el producto de signos de forma puntual a todas las
+aristas del grafo. El carácter arista a arista de la operación garantiza que
+las propiedades algebraicas del producto en $\{+,-\}$ se trasladen
+automáticamente al conjunto completo de signaturas.
+\begin{nota}
+A lo largo de este trabajo se utilizarán los términos producto de signaturas y producto de grafos con signo de forma indistinta. Esta equivalencia se justifica debido a que la operación definida no altera en ningún momento la estructura del grafo subyacente $G=(V,A)$. Puesto que los nodos y las aristas permanecen fijos, el producto de dos grafos signados recae única y exclusivamente en el producto puntual de sus respectivos signos. 
+\end{nota}
+
+
+
+A continuación se realiza un ejemplo para ilustrar el funcionamiento de la operación definida. 
+
+\begin{ejemplo}\label{gsignado}
+Sea el grafo  $G=(V,A)$ con  $V=\{1,2,3,4\}$ como vértices y $ A=\{\{1,2\},\{2,3\},\{3,4\},\{4,1\}\}$ como conjunto de aristas. Se definen sobre $G$ dos grafos signados  $\Sigma_1=(G,\sigma_1)$ y  $\Sigma_2=(G,\sigma_2)$ de forma que el producto de grafos signados queda definido como:
+    \begin{figure}[H]
+    \centering
+$\Sigma_1\otimes\Sigma_2$=
+    \begin{tikzpicture}[baseline={(current bounding box.center)}]
+
+        % Primer grafo
+        \begin{scope}
+            \node[draw, circle] (a1) at (0, 2) {1};
+            \node[draw, circle] (a2) at (0, 0) {2};
+            \node[draw, circle] (a3) at (2, 0) {3};
+            \node[draw, circle] (a4) at (2, 2) {4};
+            \draw[thick, blue] (a1) -- (a2) node[midway, fill=white, text=blue] {\(+\)};
+            \draw[thick,red] (a2) -- (a3) node[midway, fill=white, text=red] {\(-\)};
+            \draw[thick, blue] (a3) -- (a4) node[midway, fill=white, text=blue] {\(+\)};
+            \draw[thick, red] (a4) -- (a1) node[midway, fill=white, text=red] {\(-\)};
+        \end{scope}
+
+        % Símbolo × en el centro vertical
+        \node at (3,1) {$\otimes$};
+
+        % Segundo grafo
+        \begin{scope}[shift={(4,0)}]
+            \node[draw, circle] (b1) at (0, 2) {1};
+            \node[draw, circle] (b2) at (0, 0) {2};
+            \node[draw, circle] (b3) at (2, 0) {3};
+            \node[draw, circle] (b4) at (2, 2) {4};
+            \draw[thick, red] (b1) -- (b2) node[midway, fill=white, text=red] {\(-\)};
+            \draw[thick, blue] (b2) -- (b3) node[midway, fill=white, text=blue] {\(+\)};
+            \draw[thick, red] (b3) -- (b4) node[midway, fill=white, text=red] {\(-\)};
+            \draw[thick, blue] (b4) -- (b1) node[midway, fill=white, text=blue] {\(+\)};
+        \end{scope}
+
+        % Símbolo = en el centro vertical
+        \node at (7,1) {$=$};
+
+        % Grafo resultado
+        \begin{scope}[shift={(8,0)}]
+            \node[draw, circle] (c1) at (0, 2) {1};
+            \node[draw, circle] (c2) at (0, 0) {2};
+            \node[draw, circle] (c3) at (2, 0) {3};
+            \node[draw, circle] (c4) at (2, 2) {4};
+            \draw[thick, red] (c1) -- (c2) node[midway, fill=white, text=red] {\(-\)};
+            \draw[thick, red] (c2) -- (c3) node[midway, fill=white, text=red] {\(-\)};
+            \draw[thick, red] (c3) -- (c4) node[midway, fill=white, text=red] {\(-\)};
+            \draw[thick, red] (c4) -- (c1) node[midway, fill=white, text=red] {\(-\)};
+        \end{scope}
+\end{tikzpicture}
+\caption{Representación del producto de dos grafos con signo}
+\label{fig_producto_grafos}
+\end{figure}
+\end{ejemplo}
+Una vez definida la operación producto de grafos signados, resulta de gran interés determinar la naturaleza algebraica del espacio de todas las posibles asignaciones de signos sobre un grafo fijo.
+
+El siguiente resultado constituye un paso fundamental en este estudio al demostrar que el conjunto de signaturas posee una estructura de grupo abeliano bajo la operación producto de grafos signados.
+
+\begin{proposicion}\label{abeliano1}
+ Sea $G=(V,A)$ un grafo, $(\mathcal{S}^\sigma_G,\otimes)$ es un grupo abeliano.
+ 
+ 
+\end{proposicion}
+\begin{proof} Sea $G$ un grafo cualquiera pero fijo. Se verá que el conjunto de signaturas definidas sobre $G$ junto a la operación producto de signaturas forma un grupo abeliano. Para ello se estudiará si se cumplen todas las condiciones de la Definición \ref{Grupo Abeliano}:
+
+\begin{itemize}
+
+
+    \item[(i)] \textbf{Clausura:} Por definición, el producto de signaturas sobre un mismo grafo siempre da una signatura.
+    \item[(ii)] \textbf{Conmutatividad} : Sean $\sigma_1,\sigma_2$ dos signaturas definidas sobre $G$. 
+    Debido a la propia conmutitividad del producto de signos, se tiene que $\sigma_1 (a) \times\sigma_2 (a) = \sigma_2 (a)\times \sigma_1 (a)$ para toda arista $a \in A$. De esta forma se observa que $(\sigma_1 \otimes\sigma_2)(a)=(\sigma_2 \otimes\sigma_1)(a)  $ $\forall a\in A$ y por tanto se cumple la propiedad de conmutatividad.
+    
+   
+
+\item[(iii)] \textbf{Asociatividad:} Es conocido que el producto de signos es asociativo. Razonando de forma análoga a la conmutatividad se tiene que el producto de  signaturas es asociativo.
+
+
+    \item[(iv)] \textbf{Elemento neutro:} $\sigma_{+}$ es el elemento neutro. Para cualquier signatura $\sigma$ sobre $G$ se tiene que $\sigma_{+}\otimes\sigma=\sigma\otimes \sigma_{+}=\sigma$.
+    \item[(v)] \textbf{Elemento invero:} Cada signatura posee elemento inverso y es la propia signatura. Esto se observa ya que en cada arista debe haber uno de estos signos:
+    \begin{itemize}
+        \item Signo positivo: El producto de dos signos positivos da un nuevo signo positivo.
+        \item Signo negativo: El producto de dos signos negativos da un signo negativo
+    \end{itemize}
+    De todo esto se obtiene que
+    $\sigma \otimes \sigma=\sigma^{+}$  y esto implica que $\sigma = \sigma^{-1}\otimes \sigma^{+}=\sigma^{-1}$
+\end{itemize}
+
+Por tanto, se concluye que el producto de grafos signados forma un grupo abeliano.
+\end{proof}
+
+
+
+Una vez comprobado que el conjunto de signaturas conforma un grupo abeliano bajo el producto, resulta natural intentar relacionar este nuevo espacio con un grupo clásico. Dado que la operación actúa arista por arista de forma independiente y que únicamente existen dos signos posibles, el comportamiento de este grupo sugiere una correspondencia directa con el grupo aditivo $(\mathbb{Z}_2^{|A|}, +)$. Al disponer de un espacio donde cada componente del vector representa el valor binario de una conexión del grafo, el siguiente teorema formaliza esta intuición al establecer un isomorfismo que conecta el conjunto de signaturas con dicha estructura.
+
+
+
+
+
+
+
+\begin{teorema}\label{abeliano}
+Sea un grafo $G=(V,A)$, el grupo abeliano $(\mathcal{S}^\sigma_G,\otimes)$ es isomorfo al grupo
+$((\mathbb{Z}_2)^{|A|},+)$. 
+\begin{comment}Definimos la operación
+\[
+(\sigma_1\otimes\sigma_2)(a)=\sigma_1(a)\,\sigma_2(a),\qquad \forall a\in A.
+\]
+\end{comment}
+ 
+\end{teorema}
+\begin{comment}
+    
+
+\begin{proof}
+Se quiere probar que son isomorfos siguiendo la Definición \ref{isomorfismo}. Para ello:
+\begin{itemize}
+
+\item Primero se define la aplicación
+\[
+\varphi:\mathcal{S}^\sigma_G\longrightarrow (\mathbb{Z}_2)^{|A|}
+\]
+que cumple que
+\[
+\varphi(\sigma)(a)=
+\begin{cases}
+0 & \text{si }\sigma(a)=+,\\[4pt]
+1 & \text{si }\sigma(a)=-
+\end{cases}
+\qquad \forall a\in A.
+\]
+
+\item Ahora se prueba que verifica las propiedades de homomorfismo.
+Sea $\sigma_1,\sigma_2\in\mathcal{S}^\sigma_G$. Para toda arista $a\in A$,
+\[
+\varphi(\sigma_1\otimes\sigma_2)(a)=
+\begin{cases}
+0 & \text{si }\sigma_1(a)\times\sigma_2(a)=+,\\
+1 & \text{si }\sigma_1(a)\times\sigma_2(a)=-,
+\end{cases}
+\]
+lo cual equivale a
+\[
+\varphi(\sigma_1\otimes\sigma_2)(a)\equiv 
+\varphi(\sigma_1)(a)+\varphi(\sigma_2)(a)\pmod{2}.
+\]
+Por tanto
+\[
+\varphi(\sigma_1\otimes\sigma_2)=\varphi(\sigma_1)+\varphi(\sigma_2)
+\]
+en $(\mathbb{Z}_2)^{|A|}$, y así $\varphi$ es un homomorfismo de grupos.
+\item Por último se comprobará que la aplicación $\varphi$ es biyectiva.\\
+Se define la aplicación la aplicación inversa
+\[
+\psi:(\mathbb{Z}_2)^{|A|}\to\mathcal{S}^\sigma_G
+\]
+Es decir,
+\[
+\psi(v)(a)=
+\begin{cases}
++ & \text{si }v(a)=0,\\
+- & \text{si }v(a)=1.
+\end{cases}
+\qquad \forall a\in A.
+\]
+Se verifica inmediatamente que $\psi(\varphi(\sigma))=\sigma$ para toda
+$\sigma\in\mathcal{S}^\sigma_G$ y que $\varphi(\psi(v))=v$ para todo 
+$v\in(\mathbb{Z}_2)^{|A|}$.
+
+Por tanto $\varphi$ es biyectiva con inversa $\psi$.
+
+Como $\varphi$ es un homomorfismo biyectivo, es un isomorfismo de grupos. En consecuencia,
+\[
+(\mathcal{S}^\sigma_G,\otimes)\;\cong\; ((\mathbb{Z}_2)^{|A|},+).
+\]
+
+
+\end{itemize}
+\end{proof}
+
+\end{comment}
+
+
+
+\begin{proof}
+Se quiere probar que ambas estructuras son isomorfas siguiendo la Definición \ref{isomorfismo}. Para ello,
+\begin{itemize}
+
+\item Primero se define la aplicación
+\[
+\varphi: \mathcal{S}_G^\sigma \longrightarrow \mathbb{Z}_2^A
+\]
+que cumple para toda arista $a \in A$ que
+\[
+\varphi(\sigma)(a) = \begin{cases} 0 & \text{si } \sigma(a) = +, \\ 1 & \text{si } \sigma(a) = - \end{cases}
+\]
+
+\item Ahora se prueba que verifica las propiedades de homomorfismo. Sean $\sigma_1, \sigma_2 \in \mathcal{S}_G^\sigma$. Para toda arista $a \in A$ se tiene
+\[
+\varphi(\sigma_1 \otimes \sigma_2)(a) = \begin{cases} 0 & \text{si } \sigma_1(a) \times \sigma_2(a) = +, \\ 1 & \text{si } \sigma_1(a) \times \sigma_2(a) = - \end{cases}
+\]
+lo cual equivale algebraicamente a la suma en $\mathbb{Z}_2$
+\[
+\varphi(\sigma_1 \otimes \sigma_2)(a) = \varphi(\sigma_1)(a) + \varphi(\sigma_2)(a) \quad   \forall a\in A \pmod 2
+\]
+Por tanto
+\[
+\varphi(\sigma_1 \otimes \sigma_2) = \varphi(\sigma_1) + \varphi(\sigma_2)
+\]
+en $\mathbb{Z}_2^A$ y así queda demostrado que es un homomorfismo de grupos.
+
+\item Por último, se comprobará que la aplicación es biyectiva. Se define la aplicación inversa
+\[
+\psi: \mathbb{Z}_2^A \longrightarrow \mathcal{S}_G^\sigma
+\]
+Es decir para todo $v \in \mathbb{Z}_2^A$ y toda arista $a \in A$
+\[
+\psi(v)(a) = \begin{cases} + & \text{si } v(a) = 0 \\ - & \text{si } v(a) = 1 \end{cases}
+\]
+Se verifica de forma inmediata que $\psi(\varphi(\sigma)) = \sigma$ para toda $\sigma \in \mathcal{S}_G^\sigma$ y que $\varphi(\psi(v)) = v$ para toda función $v \in \mathbb{Z}_2^A$. Por tanto la aplicación es biyectiva con inversa $\psi$.
+
+Como $\varphi$ es un homomorfismo biyectivo se concluye que es un isomorfismo de grupos. En consecuencia
+\[
+(\mathcal{S}_G^\sigma, \otimes) \cong (\mathbb{Z}_2^A, +)
+\]
+Finalmente, dado que el conjunto de aristas $A$ es finito, por la Proposición \ref{prop_isomorfismo_funciones},  $\mathbb{Z}_2^A$ es isomorfo al grupo $\mathbb{Z}_2^{|A|}$ lo que completa la relación estructural buscada en el enunciado.
+\end{itemize}
+\end{proof}
+
+
+
+
+El isomorfismo establecido en el Teorema \ref{abeliano} permite extraer diversas conclusiones sobre la naturaleza del conjunto de signaturas sin necesidad de recurrir a comprobaciones directas. Este resultado proporciona una vía alternativa para demostrar que el grupo de signaturas es abeliano al heredar las propiedades estructurales del grupo aditivo $((\mathbb{Z}_2)^{|A|}, +)$. 
+\begin{comment}  
+Asimismo, se deduce que el conjunto $S_G^\sigma$ posee una estructura de espacio vectorial de dimensión $|A|$ sobre el cuerpo finito $\mathbb{Z}_2$.\end{comment} 
+De esta relación se obtiene que el cardinal del grupo es exactamente $2^{|A|}$, valor que representa la totalidad de las posibles asignaciones de signos a las aristas del grafo G.
+
+
+
+
+
+\chapter{Equivalencia aplicación cambio de signo y producto de grafos}\label{C4}
+
+En el capítulo anterior, se dotó al conjunto de las signaturas de una estructura de grupo abeliano a través de la operación producto. Sin embargo, en la teoría de grafos con signo, no solo es relevante el signo individual de las aristas, sino cómo estas configuraciones de signos pueden transformarse.
+
+El primer objetivo de este capítulo es formalizar la aplicación cambio de signo, la cual es uno de los elementos centrales de la teoría de grafos con signo. El segundo objetivo, es estudiar su relación con la operción producto de signos.
+
+\begin{comment}
+    
+
+Demostraremos que cualquier cambio de signo puede representarse como el producto de la signatura original por una \textit{signatura de corte} específica. Finalmente, relacionaremos estos conceptos con la noción de \textit{balance} o equilibrio, probando que un grafo es balanceado si, y solo si, su signatura es equivalente a la signatura positiva mediante una sucesión de cambios de signo. Esta equivalencia nos permitirá caracterizar las propiedades estructurales del grafo a partir de su comportamiento bajo la acción del grupo de signaturas.
+\end{comment}
+Antes de presentar la formulación matemática, resulta conveniente destacar la motivación básica de esta operación. En la literatura clásica, esta transformación surge para modelar situaciones donde un elemento del grafo invierte por completo su relación con el entorno \cite{zaslavsky1982signed}. El ejemplo más intuitivo se encuentra en las redes sociales cuando un individuo cambia de postura pasando a enemistarse con sus antiguos amigos y a colaborar con sus antiguos rivales. Lo verdaderamente interesante a nivel matemático y lo que motiva su estudio, es que esta inversión mantiene completamente intacto el nivel de equilibrio global de toda la red.
+
+\section{Aplicación cambio de signo}
+
+\begin{definicion}\cite{zaslavsky1982signed} Sea $\sigma$ una signatura definida sobre un grafo G=(V,A) y $X \subseteq V$, se define la \textbf{aplicación cambio de signo $CS_X$} dada por \\
+   $CS_X:\mathcal{S}^\sigma_G \rightarrow \mathcal{S}^\sigma_G$
+tal que $CS_X(\sigma) = \sigma_X$, donde:
+   \[
+\sigma_X(\{u,v\}) = 
+\begin{cases} 
+\sigma(\{u,v\}) & \text{si } u, v \in X \text{ o } u, v \notin X, \\
+-\sigma(\{u,v\}) & \text{en caso contrario}.% i \in X, j\notin X y viceversa
+\end{cases}
+\]
+
+\end{definicion}
+
+
+Dicho de otro modo, una vez utilizada la aplicación cambio de signo se observa que $\sigma_X$ es la signatura obtenida de $\sigma$ cambiando los signos de todas las aristas que tienen exactamente un vértice en $X$. Todo esto muestra que el grafo subyacente queda invariante bajo esta transformación, la cual modifica de manera exclusiva la signatura. Gracias a esta propiedad, se definirá la equivalencia de grafos signados.
+
+\begin{definicion}\cite{zaslavsky1982signed}\label{equivalencia}
+Se dice que dos grafos signados $\Sigma_1=(G,\sigma)$, $\Sigma_2=(G,\tau)$ definidos sobre el mismo grafo subyacente $G=(V,A)$, son \textbf{grafos equivalentes} si $\tau=\sigma_X$ para algún $X \subseteq V$.
+\end{definicion}
+
+En otras palabras, dos grafos con signo se consideran equivalentes si es posible transitar de uno a otro mediante la aplicación de cambio de signo sobre un conjunto específico de vértices. Dado que la única diferencia estructural entre ambos grafos radica en sus respectivas signaturas, esta relación de equivalencia se hereda de manera natural, permitiendo extender el concepto y hablar directamente de \textbf{signaturas equivalentes} cuando una puede transformarse en la otra a través de esta operación.
+
+Para consolidar estas definiciones y visualizar de manera práctica la noción de equivalencia, se considera el siguiente caso sobre un grafo de tres vértices.
+
+\begin{ejemplo} \label{ej:cambio_signo_basico}
+Sea $G=(V,A)$ un grafo con conjunto de vértices $V=\{1,2,3\}$ y aristas $A=\{\{1,2\}, \{2,3\}, \{1,3\}\}$. 
+Se define una signatura inicial $\sigma : A \longrightarrow \{+,-\}$ dada por:
+$$
+\sigma(\{1,2\}) = +, \quad \sigma(\{2,3\}) = -, \quad \sigma(\{1,3\}) = +.
+$$
+
+Se toma a continuación el subconjunto de vértices $X = \{1\}$. Se aplica la transformación de cambio de signo $CS_X$ a la signatura $\sigma$. Según la definición, se debe invertir el signo únicamente de aquellas aristas que tengan exactamente un extremo en el conjunto $X$. Las aristas afectadas serán $\{1,2\}$ y $\{1,3\}$, mientras que $\{2,3\}$ mantendrá su signo original al no tener ningún vértice en $X$. 
+
+Se calcula la nueva signatura $\sigma_X$:
+$$
+\sigma_X(\{1,2\}) = -, \quad \sigma_X(\{1,3\}) = -, \quad  \sigma_X(\{2,3\}) = -.
+$$
+
+De este modo, se obtuvo una nueva signatura $\sigma_X$ compuesta únicamente por signos negativos. Por definición, los grafos signados $\Sigma_1=(G,\sigma)$ y $\Sigma_2=(G,\sigma_X)$ son equivalentes. Este proceso se puede visualizar en la Figura \ref{fig:ejemplo_equivalencia}, donde el vértice perteneciente a $X$ se ha resaltado en gris.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[node distance=2cm]
+    % Grafo original
+    \node (A1) at (0,2) [circle, draw] {1};
+    \node (A2) at (-1.5,0) [circle, draw] {2};
+    \node (A3) at (1.5,0) [circle, draw] {3};
+    
+    \draw[-, thick, blue] (A1) -- (A2) node[midway, left=4pt, fill=white, text=blue] {$+$};
+    \draw[-, thick, blue] (A1) -- (A3) node[midway, right=4pt, fill=white, text=blue] {$+$};
+    \draw[-, thick, red] (A2) -- (A3) node[midway, below=2pt, fill=white, text=red] {$-$};
+    
+    \node at (0,-1) {$\Sigma_1 = (G, \sigma)$};
+
+    % Flecha de transformación
+    \draw[->, thick] (2.5,1) -- (4.5,1) node[midway, above] {$CS_{\{1\}}$};
+
+    % Grafo equivalente
+    \node (B1) at (7,2) [circle, draw, fill=gray!30] {1}; % Nodo X resaltado
+    \node (B2) at (5.5,0) [circle, draw] {2};
+    \node (B3) at (8.5,0) [circle, draw] {3};
+    
+    \draw[-, thick, red] (B1) -- (B2) node[midway, left=4pt, fill=white, text=red] {$-$};
+    \draw[-, thick, red] (B1) -- (B3) node[midway, right=4pt, fill=white, text=red] {$-$};
+    \draw[-, thick, red] (B2) -- (B3) node[midway, below=2pt, fill=white, text=red] {$-$};
+    
+    \node at (7,-1) {$\Sigma_2 = (G, \sigma_X)$};
+\end{tikzpicture}
+\end{center}
+\caption{Aplicación del cambio de signo sobre el subconjunto $X=\{1\}$. Ambos grafos son equivalentes.}
+\label{fig:ejemplo_equivalencia}
+\end{figure}
+\end{ejemplo}
+
+
+
+\section{Relación de la aplicación cambio de signo y el producto de grafos}
+ 
+El objetivo ahora es relacionar la aplicación cambio de signo con el producto de grafos signados. Para ello se estudiará si es posible definir la aplicación cambio de signo a partir del producto de signaturas y se verá cuando un producto de signaturas cualquiera define la aplicación cambio de signo para algún $X$.
+
+Para formalizar esta relación, es fundamental aislar el conjunto de aristas que se ven afectadas por la aplicación cambio de signo. Como se ha descrito anteriormente, la aplicación cambio de signo altera únicamente el valor de aquellas aristas que conectan un vértice del subconjunto $X$ con otro que no pertenezca a $X$. Dado que este subconjunto de aristas es la pieza central que permitirá reescribir la transformación como un producto de signaturas, resulta imprescindible introducir primero la noción de corte.
+
+\begin{definicion}\cite{zaslavsky1982signed}
+Sea $G=(V,A)$ un grafo y $X \subseteq V$ un subconjunto de vértices. 
+El \textbf{corte asociado a $X$} se define como el conjunto de aristas
+\[
+\delta(X) := \{\, \{u,v\} \in A \mid u \in X, \, v \in V \setminus X \,\}.
+\]
+\end{definicion}
+
+Es decir, $\delta(X)$ contiene todas las aristas que tienen un extremo en $X$ y otro en $V \setminus X$.
+\begin{proposicion}\label{signatura de corte}
+Sea $\sigma \colon A \longrightarrow \{+,-\}$ una signatura definida sobre un grafo $G=(V,A)$ y sea $X \subseteq V$ un subconjunto de vértices. Entonces se cumple que
+\[
+CS_X(\sigma) = \sigma \otimes \delta_X
+\]
+donde $\delta_X \colon A \longrightarrow \{+,-\}$ está dada por
+\[
+\delta_X(\{u,v\}) = 
+\begin{cases} 
++ & \text{si } \{u,v\} \notin \delta(X) \\ 
+- & \text{si } \{u,v\} \in \delta(X) 
+\end{cases}
+\]
+\end{proposicion}
+
+
+\begin{proof}
+Por definición, $CS_X(\sigma)(a)$ coincide con $\sigma(a)$ si ambos
+extremos de $a$ pertenecen o no a $X$, y con $-\sigma(a)$ si $a$
+posee un extremo en $X$ y el otro no. Pero esto es exactamente el producto
+$\sigma(a)\times\delta_X(a)$ para toda arista $a\in A$. Así,
+$CS_X(\sigma)=\sigma\otimes\delta_X$.
+\end{proof}
+
+En otras palabras, es posible encontrar una nueva signatura $\delta_X$ que cumpla que su producto con $\sigma$ sea equivalente a la aplicación cambio de signo respecto de $X$. A esta signatura $\delta_X$ la llamaremos \textbf{signatura de corte}.
+
+Para ilustrar de forma explícita el cálculo de esta signatura de corte y comprobar cómo su producto reproduce fielmente la transformación descrita en la Proposición \ref{signatura de corte}, se considera el siguiente ejemplo sobre un grafo.
+
+\begin{ejemplo} \label{111}
+Sea $G=(V,A)$ el grafo con
+\[
+V = \{1,2,3,4\} \qquad 
+A = \{\{1,2\}, \{2,3\}, \{3,4\}, \{4,1\}, \{1,3\}\}
+\]
+Se define la signatura $\sigma \colon A \longrightarrow \{+,-\}$ que cumple la siguiente asignación
+\[
+\sigma(\{1,2\}) = + \quad
+\sigma(\{2,3\}) = - \quad
+\sigma(\{3,4\}) = + \quad
+\sigma(\{4,1\}) = - \quad
+\sigma(\{1,3\}) = +
+\]
+Se toma $X = \{1,3\}$ como el subconjunto de vértices. De esta forma el grafo signado $\Sigma=(G,\sigma)$ queda representado junto con su transformación como se observa en la Figura \ref{ejcort}
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+
+    % Grafo Original
+    \node (1) at (0, 2) [circle, draw] {1};
+    \node (2) at (2, 2) [circle, draw] {2};
+    \node (3) at (2, 0) [circle, draw] {3};
+    \node (4) at (0, 0) [circle, draw] {4};
+
+    % Aristas del original
+    \draw[-, thick, blue] (1) -- (2) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red]  (2) -- (3) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue] (3) -- (4) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red]  (4) -- (1) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue] (1) -- (3) node[midway, fill=white, text=blue] {\(+\)};
+
+    % Flecha de transición
+    \draw[->, thick] (2.8, 1) -- (4.2, 1) node[midway, above] {\(CS_{\{1,3\}}\)};
+
+    % Grafo Transformado
+    \begin{scope}[xshift=5cm]
+        \node (1b) at (0, 2) [circle, draw, fill=gray!30] {1};
+        \node (2b) at (2, 2) [circle, draw] {2};
+        \node (3b) at (2, 0) [circle, draw, fill=gray!30] {3};
+        \node (4b) at (0, 0) [circle, draw] {4};
+
+        % Aristas del transformado
+        \draw[-, thick, red] (1b) -- (2b) node[midway, fill=white, text=red] {\(-\)};
+        \draw[-, thick, blue]  (2b) -- (3b) node[midway, fill=white, text=blue] {\(+\)};
+        \draw[-, thick, red] (3b) -- (4b) node[midway, fill=white, text=red] {\(-\)};
+        \draw[-, thick, blue]  (4b) -- (1b) node[midway, fill=white, text=blue] {\(+\)};
+        \draw[-, thick, blue] (1b) -- (3b) node[midway, fill=white, text=blue] {\(+\)};
+    \end{scope}
+
+\end{tikzpicture}
+\end{center}
+    \caption{{Grafo signado original y grafo transformado resaltando el corte en gris}.}
+    \label{ejcort}
+\end{figure}
+
+ 
+La signatura de corte asociada a $X$ es
+\[
+\delta_X(\{u,v\})=
+\begin{cases}
++, & \text{si } \{u,v\}\notin \delta(X)\\
+-, & \text{si } \{u,v\}  \in \delta(X)
+\end{cases}
+\]
+Por tanto
+\[
+\delta_X(\{1,2\}) = - \quad
+\delta_X(\{2,3\}) = - \quad
+\delta_X(\{3,4\}) = - \quad
+\delta_X(\{4,1\}) = - \quad
+\delta_X(\{1,3\}) = +
+\]
+
+Aplicando la operación de cambio de signo sobre $X$ a la signatura $\sigma$ se obtiene que
+\[
+\sigma' = \sigma \otimes \delta_X
+\]
+es decir
+\[
+\sigma'(\{1,2\}) = (+)\times(-) = - \quad
+\sigma'(\{2,3\}) = (-)\times(-) = + \quad
+\]
+\[
+\sigma'(\{3,4\}) = (+)\times(-) = - \quad
+\sigma'(\{4,1\}) = (-)\times(-) = + \quad
+\]
+\[
+\sigma'(\{1,3\}) = (+)\times(+) = +
+\]
+
+De este modo $\sigma'$ es la signatura obtenida mediante la aplicación de cambio de signo en $X$.  
+Se observa que el signo de cada arista cambia únicamente cuando une un vértice de $X$ con uno fuera de $X$ mientras que la arista $\{1,3\}$ mantiene su signo original al tener ambos extremos dentro de $X$. Esto ilustra de forma completa y visual la equivalencia entre una aplicación de cambio de signo y una signatura de corte tal como establece la Proposición \ref{signatura de corte}
+\end{ejemplo}
+
+
+
+
+
+Como se vio en el Ejemplo \ref{111}, aplicar un cambio de signo respecto a un conjunto de vértices $X$ altera únicamente el signo de las aristas que cruzan el corte $\delta_X$, multiplicándolas por $-$. Una pregunta fundamental que surge de forma natural es determinar si existe alguna propiedad del grafo signado que permanezca bajo esta operación. 
+
+Dado que en los grafos signados una de las características más importantes es el signo de sus ciclos, definido como el producto de los signos de sus aristas, resulta crucial entender cómo interactúan los cortes con los ciclos. El siguiente lema proporciona una propiedad esencial sobre esta interacción, la cual será la clave para demostrar que el signo de cualquier ciclo no se ve afectado por las operaciones de cambio de signo.
+
+
+
+
+
+
+\begin{lema}\label{ciclo par}
+Sea $G=(V,A)$ un grafo y $X \subseteq V$ un subconjunto de vértices. Cada ciclo tiene un número par de aristas que pertenecen al corte $\delta(X)$.
+\end{lema}
+\begin{proof}
+    Sea $C_u = (u_0, u_1, \dots, u_n )$ un ciclo cualquiera pero fijo en $G$ con $u=u_0=u_n$. 
+Cada vez que $C_u$ atraviesa una arista de $\delta(X)$, el recorrido pasa de un vértice de $X$ 
+a otro de $V \setminus X$, o viceversa. Es decir, cada cruce de una arista del corte 
+cambia de lado respecto a la partición $(X, V \setminus X)$.
+
+Como $C_u$ es un ciclo,  inicia y termina en el mismo vértice $u_0=u_n=u$. 
+Esto implica que, tras recorrer todo el ciclo, el número total de veces 
+que se ha cambiado de lado debe ser par: 
+si fuera impar, el vértice final estaría en el lado opuesto al inicial, 
+lo cual contradice que $C_u$ empiece y acabe en el mismo vértice.
+\end{proof}
+El Lema \ref{ciclo par} garantiza que todo ciclo atraviesa un corte un número par de veces, esta propiedad implicará más adelante que el producto de los signos de un ciclo permanece invariante bajo cualquier aplicación de cambio de signo.
+
+
+
+Una vez comprendida la naturaleza de los ciclos, resulta natural preguntarse qué ocurre con secuencias más generales que también empiezan y terminan en un mismo vértice, pero que tienen permitido transitar por la misma arista o vértice múltiples veces. Además, es interesante  estudiar estas propiedades en el caso de los grafos balanceados. El siguiente lema demuestra que la noción de positividad en un grafo balanceado se extiende de manera natural a cualquier cadena cerrada, sin importar su complejidad.
+
+
+\begin{lema}\label{lema:recorridocerrado}
+Sea $(G,\sigma)$ un grafo signado balanceado, para toda cadena cerrada $W$ en $G$ se cumple
+\[
+\prod_{a\in W}\sigma(a) = +.
+\]
+\end{lema}
+
+\begin{proof}
+Sea $W_u$ una cadena cerrada, o lo que es lo mismo, una sucesión de vértices $(u_1, u_2,...,u_k)$ donde $u_1=u_k=u$ y $\{u_n, u_{n+1}\} \in A$ para todo $n \in \{1,...,k-1\}$. 
+
+El objetivo es reducir la cadena iterativamente extrayendo subcadenas cerradas cuyo producto de signos sea conocido y positivo. En cada paso, se recorre la cadena desde el inicio buscando el primer vértice que se repite. Sea $u_n$ el vértice donde ocurre la primera repetición, se delimita una subcadena cerrada $W' = (u_i, \ldots, u_n)$ donde $u_i = u_n$. Esta subcadena cerrada no posee ningún otro vértice repetido puesto que por construcción $u_n$ debe ser el primero que se repite.
+
+Al no tener vértices intermedios repetidos, esta subcadena $W'$ puede ser de dos tipos:
+\begin{enumerate}
+    \item [(i)] \textbf{Un recorrido de ida y vuelta inmediato:} Aparece una pareja de vértices $u_n, u_{n+1}$ tales que existe una arista que se recorre en un sentido y luego se vuelve inmediatamente por la misma en sentido contrario. En este caso, el producto de sus signos es:
+    \[
+    \sigma(a_n)\times\sigma(a_{n}) = \sigma(a_n)^2 = +.
+    \]
+    \item[(ii)] \textbf{Un ciclo:} La subcadena $W'$ forma un ciclo. Como el grafo $G$ es balanceado por hipótesis, el producto de los signos de las aristas de este ciclo es $+$.
+\end{enumerate}
+
+
+En cualquiera de los dos casos, el producto de los signos de las aristas de $W'$ es positivo. De esta forma, se sustituyen todos los nodos asociados al ciclo o al recorrido de ida y vuelta por el primer nodo, eso es equivalente en términos del producto de signos a eliminar las aristas cuyo producto es positivo y por tanto, no altera el resultado del producto total de signos de la subcadena cerrada. 
+
+Este procedimiento siempre se cumple puesto que en el caso de que no exista ningún vértice intermedio $u_n$ que se repita, se tiene por hipótesis del enunciado que $W$ es una cadena cerrada por lo que al menos el primer y el último vértice de la cadena se repiten. En este caso se observa de forma trivial que esta cadena forma un ciclo y siguiendo el razonamiento anterior, como $G$ es balanceado por hipótesis, el producto de los signos es positivo.
+
+Volviendo al caso en el que hay vértices intermedios repetidos, al extraer las aristas de $W'$, se obtiene una cadena cerrada estrictamente más corta.  Se repite el mismo procedimiento de buscar la primera repetición de un vértice sobre la nueva cadena resultante. 
+\begin{comment}
+    
+Es importante destacar que, al extraer un ciclo, los vértices restantes pueden unirse formando nuevos recorridos de ida y vuelta que antes no eran adyacentes. En estos casos, el algoritmo los detectará y eliminará en las siguientes iteraciones.
+\end{comment}
+
+
+Como la longitud de la cadena es finita y se reduce estrictamente en cada paso, el proceso terminará obteniendo una descomposición completa de la cadena original $W_u$ en una sucesión de subcadenas cerradas $W'_1, W'_2, \ldots, W'_m$, vaciando por completo la cadena original.
+
+Dado que cada subcadena extraída $W'_i$ ya sea una ida y vuelta o un ciclo, tiene un producto de signos positivo, el producto total de la cadena original $W_u$ es el producto de todos ellos.
+
+Por tanto, dentro de un grafo balanceado el producto de signos de cualquier cadena cerrada es positivo.
+\end{proof}
+Para ilustrar el procedimiento iterativo descrito en la demostración, se usará el siguiente ejemplo como ayuda para visualizar los conceptos utilizados.
+\begin{ejemplo} \label{ejemplo_cadena_cerrada}
+Sea $\Sigma=(G,\sigma)$ un grafo signado balanceado. Se tiene que $V=\{1, 2, 3, 4\}$ es el subconjunto de vértices. A su vez, $\sigma(\{1,2\})=+$, $\sigma(\{2,3\})=-$, $\sigma(\{3,4\})=+$ y $\sigma(\{4,2\})=-$ son las aristas y sus respectivos signos.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+    % Definir los nodos
+    \node (1) at (0, 1) [circle, draw] {1};
+    \node (2) at (2, 1) [circle, draw] {2};
+    \node (3) at (4, 2) [circle, draw] {3};
+    \node (4) at (4, 0) [circle, draw] {4};
+
+    % Dibujar las aristas con colores y signos dentro de un hueco blanco
+    \draw[-, thick, blue] (1) -- (2) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red]  (2) -- (3) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue] (3) -- (4) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red]  (4) -- (2) node[midway, fill=white, text=red] {\(-\)};
+\end{tikzpicture}
+\end{center}
+     \caption{{Grafo signado balanceado formado por un ciclo y una arista adyacente.}}
+     \label{fig_ejemplo_cadena}
+\end{figure}
+
+Se toma una cadena cerrada $W$ que parte del vértice $1$, avanza hasta el ciclo, lo recorre por completo y regresa al punto de partida. La sucesión de vértices de esta cadena viene dada por $W = (1, 2, 3, 4, 2, 1)$.
+
+Aplicando el algoritmo de la demostración, se recorre la cadena desde el inicio buscando el primer vértice que se repite. Al observar la sucesión, se encuentra que el vértice $2$ es el primero en repetirse delimitando la subcadena $W'_1 = (2, 3, 4, 2)$. Esta subcadena forma un ciclo dentro del grafo. Se calcula el producto de sus signos multiplicando las aristas correspondientes lo que resulta en $(-)\times(+)\times(-) = +$.
+
+Una vez comprobado que el producto de $W'_1$ es positivo, se extraen sus aristas de la cadena original. Al yuxtaponer los tramos restantes utilizando el vértice $2$ como enlace se obtiene una nueva cadena cerrada más corta $\widetilde{W} = (1, 2, 1)$.
+
+A continuación se repite el procedimiento sobre esta nueva cadena. El primer vértice que se repite ahora es el $1$ delimitando la subcadena $W'_2 = (1, 2, 1)$. En este caso se trata de un recorrido de ida y vuelta inmediato sobre la arista $\{1,2\}$. El producto de recorrer esta arista dos veces es $(+)\times(+) = +$.
+
+Al extraer $W'_2$ la cadena queda reducida únicamente al vértice $1$ vaciando por completo las aristas. Como todas las subcadenas extraídas $W'_1$ y $W'_2$ tienen un producto de signos positivo queda demostrado  que el producto total de la cadena original $W$ es invariablemente positivo.
+\end{ejemplo}
+
+
+
+
+Con las herramientas proporcionadas por el Lema \ref{ciclo par} y el Lema \ref{lema:recorridocerrado},  finalmente se puede responder a la pregunta planteada al inicio de esta sección. 
+
+El siguiente teorema constituye uno de los resultados centrales de este trabajo al establecer la equivalencia formal entre el equilibrio y la aplicación cambio de signo. En concreto, el resultado demuestra que una signatura equivale a una aplicación de cambio de signo si y solo si el grafo signado que define resulta ser balanceado.
+
+\begin{teorema}\label{prop3.6}
+Sea $G=(V,A)$ un grafo y sea $\sigma:A\to\{+,-\}$ una signatura sobre $G$.
+Entonces, las siguientes afirmaciones son equivalentes:
+\begin{enumerate}
+    \item[(i)] $\sigma$ es equivalente a la aplicación de cambio de signo para algún subconjunto $X\subseteq V$.
+    \item[(ii)] La signatura $\sigma$ define un grafo signado balanceado.
+\end{enumerate}
+\end{teorema}
+
+\begin{proof}
+\noindent \textbf{(i) $\Rightarrow$ (ii)}. 
+Si $\sigma$ es equivalente a una aplicación de cambio de signo por la Proposición \ref{signatura de corte} es equivalente a una signatura de corte. Esto implica que existe $X\subseteq V$ tal que
+$\sigma = \delta_X$. 
+Por definición, toda signatura de corte asigna signo negativo solo a las aristas que contienen un único vértice en $X$. Aplicando el Lema \ref{ciclo par} se sabe que ningún ciclo puede cruzar un corte un número impar de veces. De esta forma se observa que todos los ciclos son positivos. Por tanto, el grafo signado asociado $(G,\sigma)$ es balanceado.
+
+\medskip
+\noindent \textbf{(ii) $\Rightarrow$ (i).} Se supone ahora que el grafo signado \(\Sigma=(G,\sigma)\) es balanceado. A continuación, se construye una función 
+\[
+\eta:V\longrightarrow\{+,-\}
+\]
+tal que para toda arista \(a=(u,v)\) se cumpla
+\[
+\sigma(a)=\eta(u)\times\eta(v).
+\]
+La construcción se hace componente conexa por componente conexa de \(G\). Para cada componente conexa se fija un vértice base \(v_0\) y se define, para cualquier vértice \(v\) de esa componente,
+
+\[
+\eta(v):=
+\begin{cases}
+\prod_{a\in P_{v_0,v}} \sigma(a), & \text{si } v\neq v_0\\
++, & \text{si } v= v_0\\
+\end{cases}
+\]
+donde \(P_{v_0,v}\) es una cadena cualquiera de \(v_0\) a \(v\). Debido a la hipótesis de balance, el signo anterior no depende de la cadena escogida, es decir si \(P\) y \(P'\) son dos cadenas distintas de \(v_0\) a \(v\), al concatenar \(P\) con la inversa de \(P'\) se obtiene una cadena cerrada y aplicando el Lema \ref{lema:recorridocerrado} se observa que esta cadena cerrada siempre tiene signo positivo, por tanto las dos cadenas $P, P'$ tienen el mismo signo y esto demuestra que el signo es independiente de la cadena tomada.
+
+
+Con todo esto, si se define $X$ como $X=\{v\in V:\eta(v)=-\}$, por definición de signatura de corte, se cumple $\sigma=\delta_X$, y aplicando la Proposición \ref{signatura de corte}, $\sigma$ es equivalente a una aplicación cambio de signo.
+\end{proof}
+
+El resultado anterior constituye una de las caracterizaciones fundamentales de este estudio y consolida el concepto de equilibrio. Al establecer esta equivalencia, el teorema permite expresar cualquier aplicación de cambio de signo mediante el producto por una signatura balanceada. En particular, dado que el inverso de toda signatura es ella misma, esto garantiza que siempre existe un cambio de signo que transforma una signatura balanceada en la signatura totalmente positiva.
+
+Como consecuencia directa de esta estructura matemática se deduce de forma natural la caracterización clásica de Harary la cual se enuncia a continuación en forma de corolario.
+
+\begin{corolario}
+\cite{harary1953notion} \label{caracterizacion_harary}
+Un grafo signado es balanceado si y solo si existe una partición de los vértices $X \subseteq V$ tal que las aristas negativas son las aristas que pertenecen al corte $\delta(X)$.
+\end{corolario}
+
+Gracias a esta propiedad estructural se deja de estudiar el balance analizando los ciclos uno por uno para pasar a entenderlo como una característica global de toda la red. Este cambio de enfoque es precisamente la herramienta que permitirá clasificar las signaturas de forma agrupada y operar con los espacios cociente en los próximos capítulos.
+
+
+
+\begin{comment}
+    
+
+El anterior resultado constituye una de las caracterizaciones fundamentales de este estudio y permite consolidar la base teórica de la memoria. Como consecuencia directa de este resultado se deduce la caracterización clásica de Harary la cual se presenta a continuación en forma de corolario. 
+\begin{corolario}
+\cite{harary1953notion} \label{caracterizacion_harary}
+Un grafo signado es balanceado si y solo si existe una partición de los vértices $X \subseteq V$ tal que las aristas negativas son las aristas que pertenecen al corte $\delta(X)$.
+\end{corolario}
+Estos resultados son claves para este trabajo porque consolidan el concepto de equilibrio. Al establecer estas equivalencias, los resultados permiten expresar cualquier aplicación de cambio de signo mediante el producto por una signatura balanceada. En particular dado que el inverso de toda signatura es ella misma esto garantiza que siempre existe un cambio de signo que transforma una signatura balanceada en la signatura totalmente positiva.
+
+Gracias a este resultado se deja de estudiar el balance analizando los ciclos uno por uno para pasar a entenderlo como una propiedad global de toda la red. Este cambio de enfoque es precisamente la herramienta que permitirá clasificar las signaturas de forma agrupada y operar con los espacios cociente en los próximos capítulos.
+
+
+El Corolario \ref{caracterizacion_harary} resulta clave para este trabajo porque consolida el concepto de equilibrio. Al demostrar que existe una partición de vértices, asegura que las signaturas balanceadas son exactamente las signaturas de corte. En términos prácticos, esto significa que cualquier grafo equilibrado se puede construir partiendo de un grafo inicial con todas sus aristas positivas y aplicándole simples transformaciones de cambio de signo.
+
+Gracias al resultado de Harary, se deja de estudiar el balance mirando los ciclos uno por uno para entenderlo como una propiedad global de toda la red. Este cambio de enfoque es precisamente la herramienta que permitirá clasificar las signaturas de forma agrupada y operar con los espacios cociente en los próximos capítulos.
+\end{comment}
+Para ilustrar los resultados de este capítulo y comprobar cómo la partición de vértices determina el equilibrio estructural del grafo, se desarrollará un caso concreto. Se partirá de un grafo signado balanceado y se encontrará explícitamente el subconjunto de vértices que genera su signatura de corte demostrando que sus aristas negativas coinciden exactamente con las que cruzan dicha partición.
+\begin{comment}
+    
+
+\begin{ejemplo}[QUITARÉ ESTE EJEMPLO]
+Sea $G=(V,A)$ el grafo con $V=\{1,2,3\}$ y 
+$A=\{\{1,2\}, \{2,3\}\}$.
+Definimos la signatura
+\[
+\sigma:A\longrightarrow\{+,-\},\qquad 
+\sigma(\{1,2\})=-,\ \ \sigma(\{2,3\})=+.
+\]
+
+Como $G$ no contiene ciclos, el grafo signado $\Sigma=(G,\sigma)$ es balanceado.
+
+De acuerdo con la construcción de la demostración de la Proposición~3.6, 
+fijamos el vértice $1$ y definimos
+\[
+\eta(1)=+,\qquad 
+\eta(2)=\prod_{a\in P(1,2)}\sigma(a)=\sigma(\{1,2\})=-,\]\\
+\[\qquad
+\eta(3)=\prod_{a\in P(1,3)}\sigma(a)=\sigma(\{1,2\})\times\sigma(\{2,3\})=-\times +=-.
+\]
+Definimos el conjunto
+\[
+X:=\{\,v\in V:\eta(v)=-\,\}=\{2,3\}.
+\]
+Sea $\delta_X:A\to\{+,-\}$ la signatura de corte asociada a $X$, dada por
+\[
+\delta_X(\{u,v\})=
+\begin{cases}
++,& \text{si }u,v\in X\text{ o }u,v\notin X,\\
+-,& \text{si exactamente uno de }u,v\in X.
+\end{cases}
+\]
+Entonces,
+\[
+\delta_X(a_{12})=\delta_X(\{1,2\})=-,\qquad 
+\delta_X(a_{23})=\delta_X(\{2,3\})=+.
+\]
+Por tanto, $\delta_X=\sigma$. En consecuencia, $(G,\sigma)$ es balanceado y además equivalente a una signatura de corte, lo que corrobora la Proposición~3.6.
+\end{ejemplo}
+\end{comment}
+
+
+
+\begin{ejemplo}
+Sea $G=(V,A)$ el grafo con 
+\[
+V=\{1,2,3,4\}, \qquad 
+A=\{\{1,2\},\,\{2,3\},\,\{3,4\},\,\{4,1\}\}.
+\]
+Se define la signatura $\sigma:A\longrightarrow\{+,-\}$ tal que:
+\[
+\sigma(\{1,2\})=-,\ \ \sigma(\{2,3\})=+,\ \ \sigma(\{3,4\})=-,\ \ \sigma(\{4,1\})=+.
+\]
+
+El único ciclo de $G$ está formado por las aristas 
+$\{1,2\},\{2,3\},\{3,4\},\{4,1\}$ y se verifica
+\[
+\sigma(\{1,2\})\times\sigma(\{2,3\})\times\sigma(\{3,4\})\times\sigma(\{4,1\})
+=(-)\times(+)\times(-)\times(+)=+.
+\]
+Por tanto, $\Sigma=(G,\sigma)$ es un grafo signado balanceado representado en la Imagen \ref{3.6}.
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+
+    % Definir los nodos
+    \node (1) at (0, 2) [circle, draw] {1};
+    \node (2) at (2, 2) [circle, draw] {2};
+    \node (3) at (2, 0) [circle, draw] {3};
+    \node (4) at (0, 0) [circle, draw] {4};
+
+    % Dibujar las aristas con colores y signos dentro de un hueco blanco
+    \draw[-, thick, red] (1) -- (2) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue]  (2) -- (3) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, red] (3) -- (4) node[midway, fill=white, text=red] {\(-\)};
+    \draw[-, thick, blue]  (4) -- (1) node[midway, fill=white, text=blue] {\(+\)};
+
+\end{tikzpicture}
+\end{center}
+     \caption{{Grafo con signo}}
+     \label{3.6}
+\end{figure}
+Aplicando la construcción de la demostración de la Teorema \ref{prop3.6},
+se fija el vértice $1$ y se define
+
+    
+
+
+\[
+\eta(1)=+
+\]
+\[\eta(2)=\prod_{a\in P(1,2)}\sigma(a)=\sigma(\{1,2\})=-\]
+\[
+\eta(3)=\prod_{a\in P(1,3)}\sigma(a)=\sigma(\{1,2\})\times\sigma(\{2,3\})=-\times +=-
+\]
+\[\eta(4)=\prod_{a\in P(1,4)}\sigma(a)=\sigma(\{4,1\})=+\]
+
+Se define entonces el conjunto
+\[
+X:=\{\,v\in V:\eta(v)=-\,\}=\{2,3\}.
+\]
+Sea $\delta_X:A\to\{+,-\}$ la signatura de corte asociada a $X$, dada por
+\[
+\delta_X(\{u,v\})=
+\begin{cases}
++,& \text{si }u,v\in X\text{ o }u,v\notin X,\\
+-,& \text{si exactamente uno de }u,v\in X.
+\end{cases}
+\]
+Entonces,
+\[
+\delta_X(\{1,2\})=-,\qquad 
+\delta_X(\{2,3\})=+,\qquad 
+\delta_X(\{3,4\})=-,\qquad 
+\delta_X(\{4,1\})=+.
+\]
+Por tanto $\delta_X=\sigma$. En consecuencia el grafo signado $\Sigma=(G,\sigma)$ es balanceado y además equivalente a una signatura de corte lo cual ilustra de forma práctica el cumplimiento del Teorema \ref{prop3.6} sobre la estructura propuesta.
+
+\end{ejemplo}
+
+
+\chapter{Producto de clases de equivalencia}\label{C5}
+
+En los capítulos anteriores se estudió la estructura del conjunto de signaturas sobre un grafo fijo, así como la relación entre el producto de signaturas y la aplicación de cambio de signo. En particular, se vio que dicha aplicación induce una relación de equivalencia natural entre grafos signados,  ligada al concepto de balance.
+
+El objetivo de este capítulo es profundizar en esta relación desde un punto de vista estructural, analizando el conjunto de clases de equivalencia y estudiando cómo el producto de signaturas se traslada a nivel de clases. 
+
+\section{Clases de equivalencia }
+
+\noindent
+Como se estableció a partir de la Definición \ref{equivalencia}, la equivalencia entre grafos bajo la operación de cambio de signo induce de forma natural una relación de equivalencia sobre el conjunto de signaturas. Al agrupar todas aquellas signaturas que pueden transformarse unas en otras, surge el concepto matemático de clase el cual se formaliza a continuación.
+
+\begin{definicion}\cite{zaslavsky1982signed}\label{ceq}
+Sea $\sigma$ una signatura definida sobre un grafo $G=(V,A)$. La \textbf{clase de equivalencia} o \textbf{clase de intercambio} de $\sigma$ se define como el conjunto formado por todas las signaturas equivalentes a ella y se denota mediante la expresión
+\[
+\mathcal{C}_\sigma(G) = \{\sigma_X \mid X \subseteq V\}.
+\]
+\end{definicion}
+
+Para poder operar con estas clases de equivalencia y definir un producto entre ellas, primero se necesita entender cómo interactúan algebraicamente las transformaciones que las generan. Si se realizan dos cambios de signo sucesivos sobre un grafo, primero respecto a un conjunto $X$ y luego respecto a un conjunto $Y$, es natural preguntarse si el resultado final puede describirse mediante un único cambio de signo. El siguiente lema responde afirmativamente a esta cuestión, revelando una correspondencia entre el producto de signaturas de corte y la operación de la diferencia simétrica $X \triangle Y$. Este resultado será la pieza clave para asegurar posteriormente que las operaciones entre clases estén bien definidas.
+
+\begin{lema}\label{lema:delta-diferencia-simetrica}
+Sea $G=(V,A)$ un grafo y sean $X,Y\subseteq V$.  
+Si $\delta_X$ y $\delta_Y$ son las signaturas de corte asociadas a $X$ e $Y$, entonces
+\[
+\delta_X \otimes \delta_Y = \delta_{X\triangle Y},
+\]
+\end{lema}
+
+\begin{proof}
+Se debe recordar que por definición, para toda arista $a\in A$ se tiene:
+\[
+\delta_X(a)=
+\begin{cases}
++, & \text{si } a\notin \delta(X)\\
+-, & \text{si } a  \in \delta(X)
+\end{cases}
+\]
+\[
+\delta_Y(a)=
+\begin{cases}
++, & \text{si } a\notin \delta(Y)\\
+-, & \text{si } a  \in \delta(Y)
+\end{cases}
+\]
+\[
+\delta_{X\triangle Y}(a)=
+\begin{cases}
++, & \text{si } a\notin \delta(X\triangle Y)\\
+-, & \text{si } a  \in \delta(X\triangle Y)
+\end{cases}
+\]
+Con todo esto se demuestra la hipótesis del enunciado:
+\begin{align*}
+(\delta_X \otimes \delta_Y)(a) &= \delta_X(a) \times \delta_Y(a) \\
+&= \begin{cases}
++, & \text{si } a \notin \delta(X), a \notin \delta(Y) \text{ o } a \in \delta(X), a \in \delta(Y) \\
+-, & \text{si } a \in \delta(X), a \notin \delta(Y) \text{ o } a \notin \delta(X), a \in \delta(Y) 
+\end{cases} \\
+&= \begin{cases}
++, & \text{si } a \notin \delta((X \setminus Y) \cup (Y \setminus X)) \\
+-, & \text{si } a \in \delta((X \setminus Y) \cup (Y \setminus X))
+\end{cases} \\
+&= \begin{cases}
++, & \text{si } a \notin \delta(X \triangle Y) \\
+-, & \text{si } a \in \delta(X \triangle Y)
+\end{cases} \\
+&= \delta_{X \triangle Y}(a) \qquad \forall a \in A.
+\end{align*}
+\end{proof}
+
+
+Con el comportamiento del producto de dos signaturasde corte ya establecido, el siguiente paso es trasladar este resultado a signaturas arbitrarias. El próximo lema generaliza el resultado anterior y proporciona la regla de interacción entre el producto de signaturas y la aplicación cambio de signo. Su interpretación indica que aplicar cambios de signo a dos signaturas de forma independiente y posteriormente multiplicarlas, produce exactamente el mismo resultado que multiplicar primero las signaturas originales y aplicar al resultado un único cambio de signo respecto a la diferencia simétrica $X \triangle Y$. Esta compatibilidad es la que permitirá operar con clases de equivalencia de forma segura.
+
+
+
+\begin{lema}\label{3.8}
+Sean $\sigma_1, \sigma_2$ dos signaturas definidas sobre un mismo grafo $G=(V,A)$, y sean $X,Y \subseteq V$. Entonces se cumple la identidad
+\[
+\mathrm{CS}_X(\sigma_1)\ \otimes\ \mathrm{CS}_Y(\sigma_2)
+\;=\;
+\mathrm{CS}_{X\triangle Y}\big(\sigma_1\otimes\sigma_2\big)
+\]
+
+\end{lema}
+
+\begin{proof}
+Por la Proposición \ref{signatura de corte}, $\mathrm{CS}_X(\sigma_1) = \sigma_1 \otimes \delta_X$ y $\mathrm{CS}_Y(\sigma_2) = \sigma_2 \otimes \delta_Y$.  
+Usando las propiedades de conmutatividad y asociatividad del producto de signaturas,
+\[
+\mathrm{CS}_X(\sigma_1)\otimes\mathrm{CS}_Y(\sigma_2)
+=(\sigma_1\otimes\sigma_2)\otimes(\delta_X\otimes\delta_Y).
+\]
+Por el Lema \ref{lema:delta-diferencia-simetrica} se sabe que se cumple que
+$\delta_X\otimes\delta_Y = \delta_{X\triangle Y}$, de aquí 
+se obtiene
+\[
+(\sigma_1\otimes\sigma_2)\otimes(\delta_X\otimes\delta_Y)
+=(\sigma_1\otimes\sigma_2)\otimes\delta_{X\triangle Y}
+=\mathrm{CS}_{X\triangle Y}(\sigma_1\otimes\sigma_2).
+\]
+\end{proof}
+
+La compatibilidad entre el producto de signaturas y los cambios de signo establecida en los resultados previos permite dar un paso fundamental hacia la construcción de una estructura algebraica sobre el espacio de clases. Una vez que se conoce cómo interactúan estas operaciones, es necesario demostrar que el resultado de operar con dos clases de equivalencia no depende de las signaturas concretas que se escojan para representarlas. El siguiente teorema establece precisamente esta independencia de los representantes.
+
+\begin{teorema} \label{tma:buenadefinicion}
+Sean $\sigma_1, \sigma_2 \in \mathcal{S}_G^\sigma$ dos signaturas definidas sobre un mismo grafo $G$. Si $\tau_1 \in \mathcal{C}_{\sigma_1}(G)$ y $\tau_2 \in \mathcal{C}_{\sigma_2}(G)$ son representantes cualesquiera de sus respectivas clases, entonces se cumple que su producto pertenece a la clase del producto de las signaturas originales, es decir
+\[
+\tau_1 \otimes \tau_2 \in \mathcal{C}_{\sigma_1 \otimes \sigma_2}(G).
+\]
+\end{teorema}
+
+
+\begin{proof}
+Supóngase que $\tau_1 = \mathrm{CS}_X(\sigma_1)$ y $\tau_2 = \mathrm{CS}_Y(\sigma_2)$. Aplicando directamente el Lema \ref{3.8} se obtiene la siguiente identidad
+\[
+\tau_1 \otimes \tau_2 = \mathrm{CS}_X(\sigma_1) \otimes \mathrm{CS}_Y(\sigma_2) = \mathrm{CS}_{X \triangle Y}(\sigma_1 \otimes \sigma_2)
+\]
+lo que prueba que $\tau_1 \otimes \tau_2$ pertenece a la clase de equivalencia de $\sigma_1 \otimes \sigma_2$
+\end{proof}
+\section{Estructura del conjunto de clases de equivalencia}
+Una vez establecido el concepto de clase de equivalencia y tras haber demostrado que el producto de signaturas es independiente de los representantes elegidos, resulta natural formalizar el marco de estos conjuntos. En esta sección se define rigurosamente el conjunto de clases de equivalencia y se introduce una operación interna que permitirá operar con familias enteras de grafos signados de forma conjunta.
+
+
+\begin{definicion}
+Sea $G=(V,A)$ un grafo, el \textbf{conjunto de clases de equivalencia} se define como  
+\[
+\Omega_G := \{\, C_{\sigma}(G) : \sigma \in S^{\sigma}_G \,\}
+.\]
+\end{definicion}
+
+\begin{definicion}\label{def:producto_clases}
+Sea $G=(V,A)$ un grafo y sea 
+$\Omega_G$ el conjunto de clases de equivalencia de signaturas de $G$ bajo la relación de cambio de signo. Se define el \textbf{producto de clases de equivalencia} como la función
+\[
+\begin{array}{cccc}
+\star : & \Omega_G \times \Omega_G & \longrightarrow & \Omega_G 
+\end{array}
+\]
+dada por
+\[
+\mathcal{C}_{\sigma_1}(G)\ \star\ \mathcal{C}_{\sigma_2}(G)
+:=\ \mathcal{C}_{\,\sigma_1\otimes\sigma_2}(G).
+\]
+donde $\otimes$ denota el producto de signaturas definido en $S^{\sigma}_G$.
+\end{definicion}
+
+Es fundamental señalar que esta operación está bien definida puesto que, según el Teorema \ref{tma:buenadefinicion}, el resultado es independiente de los representantes elegidos en cada clase de equivalencia.
+
+Para ilustrar la Definición \ref{def:producto_clases} se visualizará a continuación un ejemplo que ayude a justificar estos conceptos.
+
+\begin{ejemplo}
+Sea un grafo $G=(V,A)$ donde:
+\[
+V=\{1,2,3\}, \qquad A=\{\{1,2\},\,\{2,3\}\}.
+\]
+Se definen dos signaturas base $\sigma_1$ y $\sigma_2$ sobre $G$:
+\begin{align*}
+\sigma_1(\{1,2\})&=+, & \sigma_1(\{2,3\})&=- \\
+\sigma_2(\{1,2\})&=-, & \sigma_2(\{2,3\})&=-
+\end{align*}
+
+El producto de estas signaturas originales, $\sigma_1 \otimes \sigma_2$, resulta en:
+\begin{align*}
+(\sigma_1 \otimes \sigma_2)(\{1,2\}) &= (+)\times(-) = - \\
+(\sigma_1 \otimes \sigma_2)(\{2,3\}) &= (-)\times(-) = +
+\end{align*}
+
+Ahora, en lugar de multiplicar $\sigma_1$ y $\sigma_2$ directamente, se toma un representante cualquiera de la clase $\mathcal{C}_{\sigma_1}(G)$ y otro de la clase $\mathcal{C}_{\sigma_2}(G)$.
+
+Para la primera clase, se elige el conjunto $X=\{2\}$ y se define $\tau_1 = \mathrm{CS}_X(\sigma_1)$. La signatura de corte es $\delta_X(\{1,2\})=-$ y $\delta_X(\{2,3\})=-$. Se obtiene:
+\begin{align*}
+\tau_1(\{1,2\}) &= \sigma_1(\{1,2\}) \times \delta_X(\{1,2\}) = (+)\times(-) = - \\
+\tau_1(\{2,3\}) &= \sigma_1(\{2,3\}) \times \delta_X(\{2,3\}) = (-)\times(-) = +
+\end{align*}
+
+Para la segunda clase, se elige el conjunto $Y=\{3\}$ y se define $\tau_2 = \mathrm{CS}_Y(\sigma_2)$. La signatura de corte es $\delta_Y(\{1,2\})=+$ y $\delta_Y(\{2,3\})=-$. Se obtiene:
+\begin{align*}
+\tau_2(\{1,2\}) &= \sigma_2(\{1,2\}) \times \delta_Y(\{1,2\}) = (-)\times(+) = - \\
+\tau_2(\{2,3\}) &= \sigma_2(\{2,3\}) \times \delta_Y(\{2,3\}) = (-)\times(-) = +
+\end{align*}
+
+Se multiplican ahora los nuevos representantes para obtener el grafo producto $\tau_1 \otimes \tau_2$:
+\begin{align*}
+(\tau_1 \otimes \tau_2)(\{1,2\}) &= (-)\times(-) = + \\
+(\tau_1 \otimes \tau_2)(\{2,3\}) &= (+)\times(+) = +
+\end{align*}
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+    % Definir los nodos
+    \node (1) at (0, 0) [circle, draw] {1};
+    \node (2) at (3, 0) [circle, draw] {2};
+    \node (3) at (6, 0) [circle, draw] {3};
+
+    % Dibujar las aristas con colores y signos dentro de un hueco blanco
+    \draw[-, thick, blue]  (1) -- (2) node[midway, fill=white, text=blue] {\(+\)};
+    \draw[-, thick, blue]  (2) -- (3) node[midway, fill=white, text=blue] {\(+\)};
+\end{tikzpicture}
+\end{center}
+     \caption{{Grafo resultante del producto de los representantes $\tau_1 \otimes \tau_2$.}}
+     \label{fig:ejemplo_producto_clases}
+\end{figure}
+
+Según el Teorema \ref{tma:buenadefinicion}, este resultado $\tau_1 \otimes \tau_2$ debe pertenecer obligatoriamente a la clase de equivalencia del producto original $\sigma_1 \otimes \sigma_2$. 
+
+Esto se comprobará aplicando a $\sigma_1 \otimes \sigma_2$ un cambio de signo usando la diferencia simétrica de los conjuntos que generaron los representantes: $Z = X \triangle Y = \{2\} \triangle \{3\} = \{2,3\}$.
+La signatura de corte para $Z=\{2,3\}$ es:
+\begin{align*}
+\delta_{Z}(\{1,2\}) &= - \\
+\delta_{Z}(\{2,3\}) &= + 
+\end{align*}
+
+Se aplica este cambio de signo al producto original:
+\begin{align*}
+\mathrm{CS}_{Z}(\sigma_1 \otimes \sigma_2)(\{1,2\}) &= (-) \times (-) = + \\
+\mathrm{CS}_{Z}(\sigma_1 \otimes \sigma_2)(\{2,3\}) &= (+) \times (+) = +
+\end{align*}
+
+Como se observa, el resultado coincide exactamente con $\tau_1 \otimes \tau_2$, se demuestra de forma práctica que la operación entre clases está bien definida sin importar qué grafo de la clase utilicemos para el cálculo.
+\end{ejemplo}
+
+Una vez comprobado que la operación entre clases de equivalencia está bien definida, el siguiente paso natural es analizar la estructura algebraica del conjunto $\Omega_G$. En el Capítulo \ref{C3} se demostró que el conjunto de todas las signaturas de un grafo, dotado de la operación producto, forma un grupo abeliano. Puesto que la relación de equivalencia inducida por la aplicación de cambio de signo es compatible con dicho producto, resulta previsible que el conjunto de clases de equivalencia herede esta misma estructura. La siguiente proposición formaliza esta idea, consolidando a $\Omega_G$ como un grupo abeliano.
+
+
+
+
+\begin{proposicion}\label{teo:3.10}
+Sea $G=(V,A)$ un grafo, ($\Omega_G$,$\star)$ es un grupo abeliano. 
+\end{proposicion}
+\begin{proof}
+Se demostrará a continuación que $(\Omega_G,\star)$ cumple las propiedades de grupo abeliano.
+
+\begin{enumerate}
+  
+
+\item \textbf{Clausura:} 
+Por el Teorema~\ref{tma:buenadefinicion}, si $\tau_1 \in C_{\sigma_1}(G)$ y $\tau_2 \in C_{\sigma_2}(G)$, entonces 
+$\tau_1 \otimes \tau_2 \in C_{\sigma_1 \otimes \sigma_2}(G)$.
+Por tanto, la clase $C_{\sigma_1 \otimes \sigma_2}(G)$ no depende de los representantes elegidos, 
+y la operación $\star$ está bien definida.
+
+
+\item\textbf{Asociatividad:} 
+Dado que por la Proposición \ref{abeliano1} $(S^{\sigma}_G,\otimes)$ es un grupo abeliano,
+$\otimes$ es asociativa respecto al conjunto de todas las signaturas de $G$. 
+Así, si $C_{\sigma_i}(G)\in\Omega_G$ para $i=1,2,3$, se tiene
+\[
+(C_{\sigma_1}\star C_{\sigma_2})\star C_{\sigma_3}
+= C_{(\sigma_1\otimes\sigma_2)\otimes\sigma_3}
+= C_{\sigma_1\otimes(\sigma_2\otimes\sigma_3)}
+= C_{\sigma_1}\star (C_{\sigma_2}\star C_{\sigma_3}),
+\]
+por lo que $\star$ es asociativa.
+
+
+\item\textbf{Elemento neutro:}
+La clase $C_{\sigma_+}(G)$ actúa como neutro, pues para toda $\sigma\in S^{\sigma}_G$ se cumple
+\[
+C_{\sigma}(G)\star C_{\sigma_+}(G)
+= C_{\sigma\otimes\sigma_+}(G)
+= C_{\sigma}(G).
+\]
+
+
+\item\textbf{Elemento inverso:}
+En $(S^{\sigma}_G,\otimes)$ cada signatura es su propio inverso, 
+ya que $\sigma\otimes\sigma=\sigma_+$. 
+Por tanto,
+\[
+C_{\sigma}(G)\star C_{\sigma}(G)
+= C_{\sigma\otimes\sigma}(G)
+= C_{\sigma_+}(G),
+\]
+y toda clase es inversa de sí misma.
+
+
+\item\textbf{Conmutatividad:}
+Como $\otimes$ es conmutativa, 
+$\sigma_1\otimes\sigma_2=\sigma_2\otimes\sigma_1$, 
+y por tanto
+\[
+C_{\sigma_1}(G)\star C_{\sigma_2}(G)
+= C_{\sigma_1\otimes\sigma_2}(G)
+= C_{\sigma_2\otimes\sigma_1}(G)
+= C_{\sigma_2}(G)\star C_{\sigma_1}(G).
+\]
+\end{enumerate}
+
+Con todo ello, $(\Omega_G,\star)$ cumple las propiedades de grupo y además es conmutativo, por tanto, $(\Omega_G,\star)$ es un grupo abeliano.
+\end{proof}
+
+\chapter{Clase de cambio de signo de la signatura positiva}\label{C6}
+Como se ha demostrado en la Proposición \ref{teo:3.10}, el conjunto de clases de equivalencia $\Omega_G$ posee una estructura de grupo abeliano. Dentro de este marco algebraico el elemento neutro de la operación producto, el cual corresponde a la clase de la signatura positiva, merece un estudio detallado.
+
+Desde la perspectiva de la teoría de grafos,  $\mathcal{C}_{\sigma_+}(G)$ contiene a todas las signaturas que se pueden obtener aplicando transformaciones de cambio de signo a la signatura positiva. Estudiar esta clase equivale a caracterizar el concepto de equilibrio. Cabe destacar que esta relación es un hecho conocido que se deduce como consecuencia directa del Teorema 1 y 3 expuestos en \cite{harary1953notion}. Sin embargo, el principal interés de presentar esta proposición, radica en demostrar que es posible obtener este mismo resultado haciendo uso exclusivo del producto de grafos con signo y las transformaciones que se han desarrollado a lo largo de este trabajo. A continuación, se formaliza esta caracterización.
+
+\begin{proposicion} \label{prop:caracterizacion_clase_positiva}
+Sea $G = (V, A)$ un grafo. La clase de equivalencia de la signatura positiva equivale al conjunto de todas las signaturas que definen un grafo balanceado
+\[
+\mathcal{C}_{\sigma_+}(G) = \{ \sigma \in \mathcal{S}_G^\sigma \mid (G, \sigma) \text{ es balanceado} \}
+\]
+\end{proposicion}
+
+\begin{proof}
+Por la definición de clase de equivalencia se sabe que $\mathcal{C}_{\sigma_+}(G)$ está formada por todas las signaturas de la forma $(\sigma_+)_X$ para cualquier subconjunto $X \subseteq V$. Aplicando la Proposición \ref{signatura de corte}, se obtiene $(\sigma_+)_X = \sigma_+ \otimes \delta_X$. Como $\sigma_+$ es el elemento neutro del grupo de signaturas este producto se reduce simplemente a la signatura de corte $\delta_X$. En consecuencia la clase $\mathcal{C}_{\sigma_+}(G)$ contiene exactamente a todas las signaturas de corte del grafo. Finalmente, el Teorema \ref{prop3.6} garantiza que una signatura es una signatura de corte si y solo si el grafo signado que define es balanceado, lo que demuestra de forma directa la igualdad de los conjuntos.
+\end{proof}
+
+Siguiendo con el razonamiento de la Proposición \ref{prop:caracterizacion_clase_positiva}, sabemos que cualquier aplicación cambio de signo sobre el elemento neutro se reduce a una signatura de corte y el Teorema \ref{prop3.6} asegura que estas son precisamente las signaturas que definen un grafo balanceado. Por este motivo, resulta directa la identidad
+\[
+\mathcal{C}_{\sigma_+}(G) = \{ \delta_X \mid X \subseteq V \}.
+\]
+
+Para estudiar la estructura interna de este conjunto, se considerará la operación producto de signaturas definida sobre el grupo $S_G^{\sigma}$, pero restringida a los elementos de $\mathcal{C}_{\sigma_+}(G)$. Con esta restricción, el siguiente resultado demuestra que la clase de equivalencia de la signatura positiva hereda de forma natural la estructura algebraica del conjunto que la contiene.
+
+\begin{proposicion}
+Sea $G=(V,A)$ un grafo. Entonces,  $(\mathcal{C}_{\sigma_+}(G), \otimes)$ es un subgrupo de $(S_G^{\sigma},\otimes)$.
+\end{proposicion}
+\begin{proof}
+
+   
+ Se comprueban a continuación las condiciones de subgrupo:
+\begin{enumerate}
+\item[(i)]\textbf{Elemento neutro/ No vacío:}
+La signatura positiva $\sigma_+$, que asigna $+$ a toda arista, es balanceada, pues todo ciclo tiene producto de signos positivo. Además, se vio en la Proposición \ref{abeliano1} que era el elemento neutro del grupo. Luego $\sigma_+ \in\mathcal{C}_{\sigma_+}(G)$ y por tanto $ C_{\sigma_+}(G)\neq \emptyset$ .
+
+\item [(ii)] \textbf{Clausura:}
+Sean $\sigma_1,\sigma_2 \in C_{\sigma_+}(G)$. Tal y como se demostró en el Teorema \ref{prop3.6} multiplicar por una signatura balanceada resulta equivalente a realizar una aplicación de cambio de signo Asimismo, gracias a la Definición \ref{ceq}, como la aplicación de cambio de signo genera una signatura equivalente, se tiene por la Definición \ref{ceq} que pertenecen a la misma clase de equivalencia, que es la clase de equivalencia de la signatura positiva.
+
+\begin{comment}
+    
+
+Sean $\sigma_1,\sigma_2 \in  C_{\sigma_+}(G)$. Para todo ciclo $C \subseteq G$ se cumple:
+\[
+\prod_{a \in C} (\sigma_1 \otimes \sigma_2)(a)
+= \prod_{a \in C} \sigma_1(a)\times\sigma_2(a)
+= \Big(\prod_{a \in C} \sigma_1(a)\Big)
+  \Big(\prod_{a \in C} \sigma_2(a)\Big)
+= (+)(+) = +.
+\]
+Por tanto, $(G,\sigma_1 \otimes \sigma_2)$ es balanceado y $\sigma_1 \otimes \sigma_2 \in  C_{\sigma_+}(G)$.
+\end{comment}
+\item[(iii)]\textbf{Clausura bajo inversos:}
+Para toda signatura $\sigma$ se tiene $\sigma \otimes \sigma = \sigma_+$, luego $\sigma^{-1} = \sigma$. En particular, si $\sigma \in  C_{\sigma_+}(G)$, entonces $\sigma^{-1} \in  C_{\sigma_+}(G)$.
+
+De los puntos anteriores se deduce que $ C_{\sigma_+}(G) \le S_G^{\sigma}$.
+\end{enumerate}
+\end{proof}
+
+Una vez demostrado que el conjunto $\mathcal{C}_{\sigma_+}(G)$ constituye un subgrupo propio, resulta natural determinar su estructura algebraica exacta. La siguiente proposición caracteriza los elementos de este subgrupo relacionándolos de forma directa con las signaturas de corte y establece su isomorfismo demostrando que su dimensión depende del número de componentes conexas del grafo subyacente.
+
+\begin{teorema}\label{ultimo}
+Sea \(G=(V,E)\) un grafo con \(c\) componentes conexas. 
+Se cumple que:
+\[
+ C_{\sigma_+}(G)\cong (\mathbb{Z}_2)^{\,|V|-c}.
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{teorema}
+
+\begin{proof}
+\begin{itemize}
+
+\item Primero se define la aplicación:
+\[
+\Psi:(\mathbb{Z}_2)^{|V|}\longrightarrow S^\sigma_G,\qquad 
+\]
+
+que asigna a cada vector $v \in (\mathbb{Z}_2)^{|V|}$ la signatura de corte $\delta_{X}$ asociada al subconjunto de vértices $X = \{u \in V \mid v(u) = 1\}$.
+
+
+Es conocido por la Proposición \ref{prop3.13} que $(\mathcal{P}(V),\triangle)$ es isomorfo a $(\mathbb{Z}_2^{\,|V|},+)$ y por tanto la aplicación $\Psi$ es equivalente a : 
+\[
+\Psi:\mathcal{P}(V)\longrightarrow S^\sigma_G,\qquad 
+\]
+  que cumple para cada $X\subseteq V$ que
+$\Psi(X)=\delta_X,$
+donde \(\delta_X\) es la signatura de corte obtenida aplicando el cambio de signo en el conjunto de vértices \(X\).
+
+\item Es inmediato comprobar que \(\Psi\) es un homomorfismo de grupos. Sean $X,Y\subseteq V$, se tiene por el Lema \ref{lema:delta-diferencia-simetrica} que :
+\[ \Psi(X\triangle Y)=\delta_{X\triangle Y}=\delta_X\otimes\delta_Y=\Psi(X)\otimes\Psi(Y).
+\]
+\item Una vez probado que $\Psi$ es un homomorfismo falta estudiar el núcleo y la imagen de $\Psi$.
+\begin{itemize}
+    
+\item Primero se probará que \(\operatorname{Im}\Psi= C_{\sigma_+}(G)\):  
+Si \(X\subseteq V\) hay que comprobar que la signatura de corte  $\delta_X$ es balanceada. Por construcción de $\sigma_{+}$ la aplicación de cambio de signo da como resultado la signatura $\sigma_X$ que es la ``misma"  que la signatura de corte. Por el Teorema \ref{prop3.6} $\sigma_X$ es balanceada, luego $\delta_X$ es balanceada y por tanto \(\delta_X\in  C_{\sigma_+}(G)\). Esto implica que \(\operatorname{Im}\Psi\subseteq  C_{\sigma_+}(G)\).  
+
+Recíprocamente, si \(\sigma\in  C_{\sigma_+}(G)\) entonces \((G,\sigma)\) es balanceado, así que existe \(X\subseteq V\) tal que \(\sigma=\delta_X\otimes \sigma_+=\delta_X\) (cualquier signatura balanceada se obtiene mediante un cambio de signo desde la signatura totalmente positiva). Así \( C_{\sigma_+}(G)\subseteq\operatorname{Im}\Psi\). Por tanto \(\operatorname{Im}\Psi= C_{\sigma_+}(G)\).
+
+\item El $\ker\Psi$ viene dado por:
+\[
+\ker\Psi=\{X\subseteq V:\delta_X=\sigma_+\},
+\]
+Efectivamente, dado un subconjunto \(X \subseteq V\), pertenece al \(\ker \Psi\) si y solo si
+el cambio de signo asociado a \(X\) no modifica la signatura de ninguna arista.
+Esto es equivalente a que toda arista del grafo tenga cero o dos extremos en \(X\),
+es decir, que no exista ninguna arista con exactamente un extremo en \(X\).
+
+Esta condición se cumple exactamente cuando \(X\) es unión de componentes conexas
+de \(G\). En efecto, si \(X\) contiene componentes conexas completas, ninguna arista
+posee un nodo en \(X\) y otro en $V / X$, y recíprocamente, si no hay aristas entre
+\(X\) y su complemento, entonces \(X\) debe ser unión de componentes conexas.
+
+En particular, si \(G\) es conexo, las únicas posibilidades son \(X=\varnothing\) o
+\(X=V\), y por tanto
+\[
+\ker \Psi \cong \mathbb{Z}_2.
+\]
+
+En general, si \(G\) tiene \(c\) componentes conexas, cada una de ellas puede estar
+o no contenida en \(X\) de forma independiente. Por tanto, 
+\[
+\ker \Psi \cong (\mathbb{Z}_2)^c.
+\]
+
+\end{itemize}
+\item Aplicando el Teorema \ref{primer}  al homomorfismo \(\Psi\) se obtiene
+\[
+ C_{\sigma_+}(G)\cong \operatorname{Im}\Psi\cong \mathcal{P}(V)/\ker\Psi \cong (\mathbb{Z}_2)^{|V|}/(\mathbb{Z}_2)^{c}\cong(\mathbb{Z}_2)^{|V|-c},
+\]
+y el resultado queda demostrado.
+\end{itemize}
+\end{proof}
+Este isomorfismo demuestra que la estructura del subgrupo de signaturas balanceadas depende exclusivamente del grafo subyacente de manera que su dimensión queda fijada por el número de vértices y componentes conexas. En consecuencia, el Teorema \ref{ultimo} permite concluir que el cardinal de la clase de equivalencia de la signatura positiva es exactamente $2^{|V|-c}$. Para comprender la singularidad de este resultado, resulta muy útil analizar qué sucede con el resto de clases de equivalencia. 
+
+Sea $\sigma$ una signatura que define un grafo no balanceado y por tanto no pertenece a $\mathcal{C}_{\sigma_+}(G)$. Como se demostró previamente, el elemento neutro del conjunto de signaturas, es la signatura totalmente positiva $\sigma_+$. Para que la clase de $\sigma$ pudiera considerarse un subgrupo, sería requisito indispensable que contuviera a dicho elemento neutro. Si esto llegara a ocurrir significaría que $\sigma$ y $\sigma_+$ son equivalentes lo cual implicaría de forma directa que el grafo original ya era balanceado. Al llegar a esta contradicción, queda demostrado que ninguna otra clase de equivalencia puede poseer estructura de subgrupo.
+
+
+\chapter{Conclusiones}\label{C7}
+
+A lo largo de este trabajo se han abordado diversas cuestiones teóricas relacionadas con la estructura de los grafos con signo y sus transformaciones. A continuación, se presentan las conclusiones correspondientes a los distintos objetivos planteados desde el inicio del documento.
+
+El primer objetivo ha consistido en formalizar algebraicamente el conjunto de todas las posibles asignaciones de signos sobre un grafo. Se ha demostrado que este conjunto dotado de la operación producto de signaturas constituye un grupo abeliano. Este resultado queda recogido en la Proposición \ref{abeliano1} y el Teorema \ref{abeliano}. En este último resultado, se establece  además que dicho grupo es isomorfo al grupo aditivo $(\mathbb{Z}_2^{|A|}, +)$, lo que permite representar la polaridad de toda la red mediante una sucesión de ceros y unos.
+
+La segunda cuestión planteada ha buscado relacionar la operación de cambio de signo con el producto recién definido. A partir de los desarrollos obtenidos, se ha demostrado que cualquier transformación de los signos equivale a multiplicar la signatura original por una signatura de corte. Este bloque culmina en el Teorema \ref{prop3.6}, el cual establece una caracterización fundamental. La importancia de este resultado radica en demostrar de forma explícita que multiplicar por una signatura es equivalente a aplicar un cambio de signo si y solo si dicha signatura es balanceada.
+
+En relación con el tercer problema, se ha dado respuesta a la posibilidad de trasladar toda esta estructura a las clases de equivalencia de cambio de signo. Al demostrar mediante el Lema \ref{3.8} que el producto de signaturas es plenamente compatible con los cambios de signo, se consolidó la operación a nivel de clases. Este hito queda formalizado en la Proposición \ref{teo:3.10}, donde se concluye que el conjunto de clases de equivalencia forma por sí mismo un grupo abeliano bien definido. Esto permite operar directamente con familias de grafos equivalentes en lugar de hacerlo arista por arista.
+
+Finalmente, el cuarto objetivo ha consistido en analizar la clase de la signatura positiva. Se ha probado que esta clase, que aglutina la totalidad de los grafos balanceados posibles, forma un subgrupo propio. Además, el Teorema \ref{ultimo} precisa su dimensión exacta demostrando que es isomorfo a $(\mathbb{Z}_2)^{|V|-c}$, es decir, demuestra que está totalmente determinado por el número de nodos y componentes conexas del grafo subyacente.
+
+La contraposición de este último resultado con el isomorfismo del primer objetivo ilustra a la perfección el núcleo conceptual del trabajo. Mientras que el espacio total de signaturas tiene dimensión $|A|$, ya que se puede elegir el signo de cada arista de forma libre e independiente, la clase de equivalencia de la signatura positiva se define a través de las signaturas de corte $\delta_X$. Al quedar cada una de estas configuraciones determinada unívocamente por la elección de un subconjunto de vértices $X$, la cantidad de combinaciones posibles deja de estar ligada a las aristas y pasa a depender directamente del cardinal $|V|$ y el número de componentes conexas. 
+
+En cuanto a posibles líneas de trabajo futuro, surgen diversas preguntas relacionadas con la generalización de los conceptos tratados en esta memoria.
+
+En primer lugar, resulta de gran interés tratar de estudiar si es posible extender el producto de signaturas a grafos orientados o dirigidos de manera similar a lo que ocurre en otros campos de la teoría de grafos. Para ello sería necesario adaptar la noción de balance teniendo en cuenta la dirección de las aristas al recorrer los ciclos y analizar cómo interactúa la operación de cambio de signo con la orientación de los arcos entrantes y salientes de un vértice.
+
+Otro aspecto a considerar es la generalización del propio conjunto de signos. En este trabajo la investigación se ha restringido al conjunto $\{+, -\}$, que algebraicamente se comporta como $\mathbb{Z}_2$, pero una futura línea de investigación podría explorar qué ocurre si los pesos de las aristas pertenecen a grupos algebraicos de mayor orden como $\mathbb{Z}_n$ o incluso el grupo multiplicativo de los números complejos. El estudio de estas estructuras permitiría conectar los descubrimientos de este trabajo con áreas más amplias como la teoría de grafos de voltaje \cite{gross1974voltage}.
+
+Por último, resulta natural plantear el estudio de herramientas informáticas basadas en el producto de clases de equivalencia. La estructura algebraica de este grupo cociente podría proporcionar una base teórica sólida para el diseño de futuros algoritmos computacionales orientados a la comparación de redes dinámicas biológicas o sociales. Bajo este enfoque, procesar las transformaciones como variaciones dentro de una misma clase podría ofrecer nuevas estrategias conceptuales para identificar estados de mínima energía o analizar divergencias estructurales. Del mismo modo, es ampliamente conocido que el cambio de signo ofrece una interpretación psicológica para el principio social que afirma que el enemigo de mi enemigo es mi amigo \cite{heider1946attitudes, cartwright1956structural}. Tomando esto como punto de partida, resultaría muy interesante estudiar si la operación producto de signaturas tratada en este documento posee también alguna interpretación formal análoga en el estudio de las interacciones humanas.
+
+
+\addcontentsline{toc}{chapter}{Bibliografía}
+\bibliographystyle{apalike} 
+\bibliography{biblio} 
+
+% \begin{thebibliography}{99}
+% \addcontentsline{toc}{chapter}{Bibliografía}
+
+% %Si es un artículo: Autor, Título, Revista, volumen (año) páginas. (En el título del artículo solo la primera palabra comienza con mayúscula. En el nombre de la revista, cada palabra que no sea artículo o preposición va en mayúsculas)
+% \bibitem{CitaArticulo}
+% R.~Pérez-Fernández, B.~De~Baets, M.~Gagolewski, A taxonomy of monotonicity properties for the aggregation of multidimensional data, Information Fusion, 52 (2019) 322--334.
+
+% %Si es un libro: Autor, Título, Editorial, Lugar, año. (En el título del libro cada palabra que no sea artículo o preposición va en mayúsculas)
+% \bibitem{CitaLibro}
+% M.~Grabisch, J.-L.~Marichal, R.~Mesiar and E.~Pap, Aggregation Functions, Cambridge University Press, Cambridge, 2009.
+% \end{thebibliography}
+\end{document}
